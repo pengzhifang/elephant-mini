@@ -11,6 +11,10 @@ export const routerPath = {
    * 首页
    */
   home: '/pages/home/index',
+  /**
+   * 修改信息
+   */
+  editUserinfo: '/pages/editUserInfo/index',
 };
 
 /**
@@ -22,20 +26,4 @@ export enum PageType {
    * 首页
    */
   home = '0',
-  /**
-   * 留资页
-   */
-  drainage = '1',
-  /**
-   * 拼团
-   */
-  collage = '2',
-  /**
-   * 公开课
-   */
-  activity = '3',
-  /**
-   * 推荐有奖
-   */
-  share = '4'
 }

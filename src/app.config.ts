@@ -4,18 +4,10 @@ export default {
     'pages/home/index', 
   ],
   subPackages: [
-    // {
-    //   root: 'pages/drainage',
-    //   pages: ['index'],
-    // },
-    // {
-    //   root: 'pages/material',
-    //   pages: ['index'],
-    // },
-    // {
-    //   root: 'pages/question',
-    //   pages: ['index', 'error-collect/index', 'view-questions/index', 'directory-list/index', 'examination/index', 'examination-result/index'],
-    // },
+    {
+      root: 'pages/editUserInfo',
+      pages: ['index'],
+    }
   ],
   window: {
     backgroundTextStyle: 'light',

@@ -1,25 +1,33 @@
-import { View, Text, Image, ScrollView, Button } from '@tarojs/components'
-import './index.scss'
+import { View, Image, Button } from '@tarojs/components'
+import './index.scss';
 import navigationBarBg from './images/image_dingbu.png';
 import editIcon from './images/icon_bianji.png';
 import dingweiIcon from './images/icon_dingwei1.png';
 import yuyueIcon from './images/icon_yuyue.png';
 import dingdanIcon from './images/icon_dingdan.png';
-
 import { routerPath } from '@/configs/router.config';
 import { OpenType, useNavigator } from '@/hooks/index';
 import { useState } from 'react';
 
 const Home = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const { navigate } = useNavigator();
 
   const onGetPhoneNumber = () => {
 
   }
 
+  /** 修改用户信息 */
+  const editUserInfo = () => {
+    navigate({
+      url: routerPath.editUserinfo,
+      openType: OpenType.navigate,
+      params: {  }
+    });
+  }
+
   return (
-    <View className='home w-screen h-screen overflow-hidden p-[20px] bg-[#F6F8FB] font-PF font-medium'>
+    <View className='w-screen h-screen p-[20px] bg-[#F6F8FB] font-PF font-medium'>
       <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />
       {isLogin && <View className='z-[9] relative'>
         <View className='flex items-center'>
@@ -29,7 +37,7 @@ const Home = () => {
           <View className="text-[#333]">
             <View className='flex items-center'>
               <View>微信用户</View>
-              <Image className="w-[12px] h-[12px] ml-[10px]" src={editIcon} />
+              <Image className="w-[12px] h-[12px] ml-[10px]" src={editIcon} onClick={editUserInfo} />
             </View>
             <View className='text-[12px]'>18888888888</View>
           </View>
