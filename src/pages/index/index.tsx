@@ -33,7 +33,7 @@ export default function Index() {
 
   // 尝试 openid 登录
   useEffect(() => {
-    showLoading({ title: '加载中', mask: true });
+    // showLoading({ title: '加载中', mask: true });
 
     console.log('小程序入参: ', params);
 

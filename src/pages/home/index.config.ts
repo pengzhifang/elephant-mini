@@ -1,3 +1,4 @@
 export default {
-  navigationBarTitleText: '比邻国际中文'
+  navigationBarTitleText: '大象清运',
+  // navigationStyle: 'custom'
 }

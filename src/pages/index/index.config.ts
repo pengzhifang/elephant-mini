@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '新东方国际中文'
+  navigationBarTitleText: '大象清运'
 }

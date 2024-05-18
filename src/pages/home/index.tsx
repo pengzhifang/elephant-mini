@@ -1,70 +1,66 @@
-import { View, Text, Image, ScrollView } from '@tarojs/components'
+import { View, Text, Image, ScrollView, Button } from '@tarojs/components'
 import './index.scss'
-import banner1 from './images/banner1.jpg';
-import banner2 from './images/banner2.jpg';
-import banner3 from './images/banner3.jpg';
-import { iconMore } from '@/images/index';
-import TabBar from '@/components/tab-bar/tab-bar';
+import navigationBarBg from './images/image_dingbu.png';
+import editIcon from './images/icon_bianji.png';
+import dingweiIcon from './images/icon_dingwei1.png';
+import yuyueIcon from './images/icon_yuyue.png';
+import dingdanIcon from './images/icon_dingdan.png';
+
 import { routerPath } from '@/configs/router.config';
 import { OpenType, useNavigator } from '@/hooks/index';
+import { useState } from 'react';
+
 const Home = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const { navigate } = useNavigator();
 
-  /**
-   * 跳转资料页 咨询页
-   * @param type material资料 guidance咨询
-   */
-  const toMaterial = (type) => {
-    // navigate({
-    //   url: routerPath.material,
-    //   openType: OpenType.navigate,
-    //   params: {type: type}
-    // });
+  const onGetPhoneNumber = () => {
+
   }
 
-   /**
-   * 跳转留资页
-   * @param type 'test'试听课 'default'直通车 'interview' 面试课
-   */
-  const toDrainage = (type) => {
-    // navigate({
-    //   url: routerPath.drainage,
-    //   openType: OpenType.navigate,
-    //   params: {from: type}
-    // });
-  }
   return (
-    <View className='home w-screen overflow-hidden px-[15px] bg-[#F6F8FB] pb-[110px]'>
-        <View className='w-full' onClick={()=>toDrainage('test')}>
-          <Image className='w-full h-[1.9rem] rounded-[12px]' src={banner1} />
-        </View>
-        <View className='w-full mt-[20px]'>
-          <View className='text-[18px] text-[#3A4961] font-PF font-semibold'>课程</View>
-          <View className='w-full mt-[10px] flex justify-between'>
-            <Image onClick={()=>toDrainage('interview')}  className='banner-width rounded-[8px] h-[92px]' src={banner2} />
-            <Image onClick={()=>toDrainage('default')} className='banner-width rounded-[8px] h-[92px] ml-[10px]' src={banner3} />
+    <View className='home w-screen h-screen overflow-hidden p-[20px] bg-[#F6F8FB] font-PF font-medium'>
+      <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />
+      {isLogin && <View className='z-[9] relative'>
+        <View className='flex items-center'>
+          <View className='mr-[10px]'>
+            <Image className="w-[50px] h-[50px] rounded-[100%]" src={dingweiIcon} />
+          </View>
+          <View className="text-[#333]">
+            <View className='flex items-center'>
+              <View>微信用户</View>
+              <Image className="w-[12px] h-[12px] ml-[10px]" src={editIcon} />
+            </View>
+            <View className='text-[12px]'>18888888888</View>
           </View>
         </View>
-        <View className='bg-white w-full px-[15px] py-[20px] rounded-[12px] mt-[20px]'>
-          <View className='w-full flex justify-between h-[40px] items-center border-b border-[#F6F8F9]'>
-            <View className='text-[18px] text-[#3A4961] font-PF font-semibold'>备考资料</View>
-            <View className='flex items-center font-PF text-[#999] text-[12px]' onClick={()=> toMaterial('material')}>更多<Image className='w-[16px] h-[16px]' src={iconMore} /></View>
-          </View>
-          <View className='font-PF text-[16px] text-[[#3A4961] mt-[15px]'>备考资料（HSK一级词汇）</View>
-          <View className='font-PF text-[16px] text-[[#3A4961] mt-[15px]'>备考资料（常用英文句子）</View>
-          <View className='font-PF text-[16px] text-[[#3A4961] mt-[15px]'>备考资料（中国文化知识）</View>
+        <View className='mt-[50px]'>
+          <View className='text-center text-[#333] text-[20px]'>装修垃圾清运</View>
+          <View className='text-center text-[#999] text-[14px] mt-[10px['>无害化处理，全程无忧，省心之选</View>
+          <View className='w-[120px] h-[44px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white mt-[20px] mx-[auto]'>立即预约</View>
         </View>
-        <View className='bg-white w-full px-[15px] py-[20px] rounded-[12px] mt-[20px] mb-[15px]'>
-          <View className='w-full flex justify-between h-[40px] items-center border-b border-[#F6F8F9]'>
-            <View className='text-[18px] text-[#3A4961] font-PF font-semibold'>就业咨询</View>
-            <View className='flex items-center font-PF text-[#999] text-[12px]' onClick={()=> toMaterial('guidance')}>更多<Image className='w-[16px] h-[16px]' src={iconMore} /></View>
+        <View className='mt-[40px] flex items-center'>
+          <View className='flex flex-col items-center'>
+            <Image className='w-[20px] h-[20px]' src={yuyueIcon}></Image>
+            <View className='text-[14px] text-[#666] mt-[6px]'>清运预约</View>
           </View>
-          <View className='font-PF text-[16px] text-[[#3A4961] mt-[15px]'>国际中文老师前景</View>
-          <View className='font-PF text-[16px] text-[[#3A4961] mt-[15px]'>2023国际中文教育大会</View>
-          <View className='font-PF text-[16px] text-[[#3A4961] mt-[15px]'>新东方比邻中文招聘</View>
+          <View className='flex flex-col items-center ml-[20px]'>
+            <Image className='w-[20px] h-[20px]' src={dingdanIcon}></Image>
+            <View className='text-[14px] text-[#666] mt-[6px]'>全部订单</View>
+          </View>
         </View>
-      
-      <TabBar selected='home' />
+      </View>}
+      {!isLogin && <View className='absolute top-[50%] w-full text-center'>
+        <View className='text-[15px] mb-[10px]'>欢迎使用装修垃圾收运小程序</View>
+        <Button
+          className='w-[300px] h-[40px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white'
+          openType='getPhoneNumber'
+          onGetPhoneNumber={onGetPhoneNumber}
+        >
+          <View className='btn'>微信授权登录</View>
+        </Button>
+      </View>}
+      <View className='w-full text-[#999999] text-center text-[12px] absolute bottom-[30px]'>客服电话： 18888888888 （工作日 09:00-18:00）</View>
     </View>
   )
 }
