@@ -55,7 +55,7 @@ export default function Index() {
         success: (res) => {
           const { code } = res;
 
-          loginService.getOpenId({ jsCode: code, appletType: AppletType.drainage }).then((res) => {
+          loginService.getOpenId({ jsCode: code }).then((res) => {
             const { result, code, msg, data } = res;
 
             if (result && data?.openid) {

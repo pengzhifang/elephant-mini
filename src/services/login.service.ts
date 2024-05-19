@@ -36,31 +36,12 @@ export class LoginService extends BaseService {
   }
 
   /**
-   * 获取区号编码
-   */
-  getCountryCode() {
-    return this.get<GetCountryCodeData[]>(Login.getCountryCode);
-  }
-
-  /**
    * 授权获取用户手机号
    * @param params 请求参数
    */
   getPhoneNumber(params: GetPhoneNumberParams) {
     return this.post<string>(
       Login.getPhoneNumber,
-      params,
-      this.getRequestHeaders(params),
-    );
-  }
-
-  /**
-   * 新增商机
-   * @param params 请求参数
-   */
-  addClsClue(params: AddClsClueParams) {
-    return this.post<any>(
-      Login.addClsClue,
       params,
       this.getRequestHeaders(params),
     );

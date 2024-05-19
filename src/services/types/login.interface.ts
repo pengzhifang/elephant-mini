@@ -8,10 +8,6 @@ export interface GetOpenIdParams {
    * 临时 code
    */
   jsCode: string;
-  /**
-   * 小程序类型(1有惠,2ctcsol)
-   */
-  appletType: AppletType;
 }
 
 /**

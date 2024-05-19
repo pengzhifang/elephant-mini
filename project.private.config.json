@@ -8,16 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/question/examination/index",
-          "pathName": "pages/question/examination/index",
-          "query": "type=1&directoryId=36&status=3",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/question/examination-result/index",
-          "pathName": "pages/question/examination-result/index",
-          "query": "type=1",
+          "name": "pages/appointment/index",
+          "pathName": "pages/appointment/index",
+          "query": "",
           "launchMode": "default",
           "scene": null
         }

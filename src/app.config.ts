@@ -7,6 +7,10 @@ export default {
     {
       root: 'pages/editUserInfo',
       pages: ['index'],
+    },
+    {
+      root: 'pages/appointment',
+      pages: ['index'],
     }
   ],
   window: {
