@@ -1,4 +1,4 @@
-import { View, Image, Button } from '@tarojs/components'
+import { View, Image, Button, BaseEventOrig, ButtonProps } from '@tarojs/components'
 import './index.scss';
 import navigationBarBg from '@/images/image_dingbu.png';
 import editIcon from '@/images/icon_bianji.png';
@@ -6,23 +6,90 @@ import dingweiIcon from '@/images/icon_dingwei1.png';
 import yuyueIcon from '@/images/icon_yuyue.png';
 import dingdanIcon from '@/images/icon_dingdan.png';
 import { routerPath } from '@/configs/router.config';
-import { OpenType, useNavigator } from '@/hooks/index';
-import { useState } from 'react';
+import { OpenType, useLoading, useNavigator, useToast } from '@/hooks/index';
+import { useEffect, useRef, useState } from 'react';
+import { storage } from '@/services/storage.service';
+import { LoginService } from '@/services/login.service';
+import { logUtil } from '@/utils/log';
 
 const Home = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+  const [showLoading, hideLoading] = useLoading();
   const { navigate } = useNavigator();
+  const { current: loginService } = useRef(new LoginService());
+  const toast = useToast();
 
-  const onGetPhoneNumber = () => {
+  useEffect(() => {
+    const token = storage.getToken();
+    if(token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [])
 
-  }
+  const onGetPhoneNumber = async (
+    event: BaseEventOrig<ButtonProps.onGetPhoneNumberEventDetail>,
+  ) => {
+    showLoading({
+      title: '加载中',
+      mask: true,
+    });
+
+    const { detail } = event;
+    const { errMsg, iv, encryptedData } = detail;
+    console.log(event, '9999')
+    if (errMsg === 'getPhoneNumber:ok') {
+      // 授权登录逻辑
+      const storageOpenId = storage.getOpenid() || '';
+      const res = await loginService.register({
+        openId: storageOpenId,
+        phoneData: {
+          iv,
+          encryptedData,
+          openId: storageOpenId,
+        }
+      });
+
+      const { result, data, status, msg } = res;
+
+      if (result && data) {
+        formatUserInfo(data);
+        logUtil.info('onGetPhoneNumber', res);
+      } else {
+        toast({
+          title: `${status}: ${msg}`,
+          icon: 'none',
+        });
+        logUtil.error('onGetPhoneNumber', res);
+        return;
+      }
+    } else {
+      // 手动登录
+      console.log('login>>>>')
+    }
+  };
+
+  /**
+   * 登录成功后处理数据
+   * @param data 用户数据
+   */
+  const formatUserInfo = async (data: any) => {
+    const { userCode, name, mobile, avatarUrl, nickName, gender, token } = data;
+    const userInfo = {
+      userCode, name, mobile, avatarUrl, nickName, gender
+    }
+    storage.setUserInfo(userInfo);
+    storage.setToken(token);
+    hideLoading();
+  };
 
   /** 修改用户信息 */
   const editUserInfo = () => {
     navigate({
       url: routerPath.editUserinfo,
       openType: OpenType.navigate,
-      params: {  }
+      params: {}
     });
   }
 
@@ -31,7 +98,7 @@ const Home = () => {
     navigate({
       url: routerPath.appointment,
       openType: OpenType.navigate,
-      params: {  }
+      params: {}
     });
   }
 

@@ -38,10 +38,8 @@ export class BaseService {
             return;
           }
           if (
-            data.code === 10000 ||
-            data.code === '10000' ||
-            data.status === 1000 ||
-            data.status === '1000'
+            data.code === '00000' ||
+            data.status === '00000'
           ) {
             data.result = true;
           } else {
@@ -132,7 +130,7 @@ export class BaseService {
   private getErrorObj(error): BaseResponse<false, null> {
     return {
       result: false,
-      code: 40001,
+      status: 40001,
       msg: '网络异常' + error.errMsg,
       data: null,
     };
