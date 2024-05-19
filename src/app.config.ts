@@ -10,7 +10,7 @@ export default {
     },
     {
       root: 'pages/appointment',
-      pages: ['index'],
+      pages: ['index', 'appointment-order/index'],
     }
   ],
   window: {

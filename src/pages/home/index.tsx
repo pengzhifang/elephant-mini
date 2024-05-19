@@ -1,10 +1,10 @@
 import { View, Image, Button } from '@tarojs/components'
 import './index.scss';
-import navigationBarBg from './images/image_dingbu.png';
-import editIcon from './images/icon_bianji.png';
-import dingweiIcon from './images/icon_dingwei1.png';
-import yuyueIcon from './images/icon_yuyue.png';
-import dingdanIcon from './images/icon_dingdan.png';
+import navigationBarBg from '@/images/image_dingbu.png';
+import editIcon from '@/images/icon_bianji.png';
+import dingweiIcon from '@/images/icon_dingwei1.png';
+import yuyueIcon from '@/images/icon_yuyue.png';
+import dingdanIcon from '@/images/icon_dingdan.png';
 import { routerPath } from '@/configs/router.config';
 import { OpenType, useNavigator } from '@/hooks/index';
 import { useState } from 'react';

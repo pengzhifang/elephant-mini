@@ -16,9 +16,13 @@ export const routerPath = {
    */
   editUserinfo: '/pages/editUserInfo/index',
   /**
-   * 预约下单
+   * 预约
    */
   appointment: '/pages/appointment/index',
+  /**
+   * 预约
+   */
+  appointmentOrder: '/pages/appointment/appointment-order/index',
 };
 
 /**

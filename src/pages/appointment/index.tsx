@@ -1,10 +1,14 @@
 import { Input, View, Image } from "@tarojs/components";
-import dingweiIcon from  '../home/images/icon_dingwei.png';
+import dingweiIcon from  '@/images/icon_dingwei.png';
 import ConfirmModal from './confirmModal'
 import { useState } from "react";
 
 const Appointment = () => {
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const confirm = () => {
+    setShowConfirm(true);
+  }
 
   return (
     <View className="w-screen h-screen bg-[#F7F9FF] p-[15px] font-PF text-[#999]">
@@ -18,7 +22,7 @@ const Appointment = () => {
             <View className="text-[12px]">定位</View>
           </View>
         </View>
-        <View className="h-[54px] rounded-[10px] mt-[50px] bg-[#0091FF] flex items-center justify-center text-[18px] text-white font-semibold">确定</View>
+        <View className="h-[54px] rounded-[10px] mt-[50px] bg-[#0091FF] flex items-center justify-center text-[18px] text-white font-semibold" onClick={confirm}>确定</View>
         <View className='w-full text-[#999999] text-center text-[12px] absolute bottom-[30px]'>客服电话： 18888888888 （工作日 09:00-18:00）</View>
       </View>
       {showConfirm && <ConfirmModal></ConfirmModal>}

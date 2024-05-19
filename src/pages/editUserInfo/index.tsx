@@ -1,6 +1,6 @@
 import { View, Image, Input, Text } from "@tarojs/components";
-import navigationBarBg from '../home/images/image_dingbu.png';
-import tipsIcon from '../home/images/icon_gantanhao.png'
+import navigationBarBg from '@/images/image_dingbu.png';
+import tipsIcon from '@/images/icon_gantanhao.png'
 import { OpenType, useNavigator } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
 

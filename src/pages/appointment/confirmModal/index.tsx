@@ -1,7 +1,19 @@
 import { View, Image } from "@tarojs/components";
-import modalBg from '../../home/images/modal_bg.png';
+import modalBg from '@/images/modal_bg.png';
+import { OpenType, useNavigator } from "@/hooks/index";
+import { routerPath } from "@/configs/router.config";
 
 const ConfirmModal = () => {
+  const { navigate } = useNavigator();
+
+  const confirm = () => {
+    navigate({
+      url: routerPath.appointmentOrder,
+      openType: OpenType.navigate,
+      params: {  }
+    });
+  }
+
   return (
     <View className='fixed left-0 top-0 w-screen h-screen flex flex-col justify-center items-center bg-rgba02'>
       <View className='w-[230px] h-[230px] p-[20px] bg-white rounded-[10px] relative font-PF text-[#999]'>
@@ -14,7 +26,7 @@ const ConfirmModal = () => {
           <View className="mt-[5px] text-[12px]">详细地址：西土城路86号</View>
           <View className="mt-[22px] flex items-center">
             <View className="w-[85px] h-[36px] rounded-[4px] border border-solid border-[#0091FF] flex items-center justify-center text-[14px] font-semibold text-[#0091FF]">取消</View>
-            <View className="w-[85px] h-[36px] rounded-[4px] bg-[#0091FF] flex items-center justify-center ml-[20px] text-[14px] text-white font-semibold">确定</View>
+            <View className="w-[85px] h-[36px] rounded-[4px] bg-[#0091FF] flex items-center justify-center ml-[20px] text-[14px] text-white font-semibold" onClick={confirm}>确定</View>
           </View>
         </View>
       </View>

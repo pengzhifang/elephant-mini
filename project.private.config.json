@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/appointment/appointment-order/index",
+          "pathName": "pages/appointment/appointment-order/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/appointment/index",
           "pathName": "pages/appointment/index",
           "query": "",
