@@ -26,7 +26,7 @@ const ConfirmModal = () => {
           <View className="mt-[5px] text-[12px]">详细地址：西土城路86号</View>
           <View className="mt-[22px] flex items-center">
             <View className="w-[85px] h-[36px] rounded-[4px] border border-solid border-[#0091FF] flex items-center justify-center text-[14px] font-semibold text-[#0091FF]">取消</View>
-            <View className="w-[85px] h-[36px] rounded-[4px] bg-[#0091FF] flex items-center justify-center ml-[20px] text-[14px] text-white font-semibold" onClick={confirm}>确定</View>
+            <View className="w-[85px] h-[36px] rounded-[4px] bg-[#0091FF] flex items-center justify-center ml-[20px] text-[14px] text-white font-semibold" onClick={confirm}>确认</View>
           </View>
         </View>
       </View>

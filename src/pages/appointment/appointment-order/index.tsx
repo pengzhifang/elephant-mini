@@ -4,8 +4,20 @@ import carIcon from '@/images/icon_qiche.png';
 import photoIcon from '@/images/icon_xiangji.png';
 import arrowIcon from '@/images/ico_more@2x.png';
 import './index.scss'
+import { OpenType, useNavigator } from "@/hooks/index";
+import { routerPath } from "@/configs/router.config";
 
 const AppointmentOrder = () => {
+  const { navigate } = useNavigator();
+
+  const confirm = () => {
+    navigate({
+      url: routerPath.submit,
+      openType: OpenType.navigate,
+      params: {  }
+    });
+  }
+
   return (
     <View className="w-screen min-h-screen bg-[#F7F9FF] px-[15px] pb-[20px] font-PF text-[#999]">
       <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center">
@@ -76,7 +88,7 @@ const AppointmentOrder = () => {
           </View>
           <Textarea className="w-full h-[52px] mt-[10px] border border-solid border-[#999] rounded-[10px] opacity-50"></Textarea>
         </View>
-        <View className="h-[54px] mt-[30px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white">确认</View>
+        <View className="h-[54px] mt-[30px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white" onClick={confirm}>确认</View>
       </View>
     </View>
   )

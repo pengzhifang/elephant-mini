@@ -87,7 +87,7 @@ class StorageService {
    * 获取UserInfo
    */
   getUserInfo() {
-    return this.get<UserInfo | undefined>(storageKey.userInfo);
+    return this.get(storageKey.userInfo);
   }
 
   /**

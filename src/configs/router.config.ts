@@ -23,6 +23,10 @@ export const routerPath = {
    * 预约
    */
   appointmentOrder: '/pages/appointment/appointment-order/index',
+  /**
+   * 提交
+   */
+  submit: '/pages/appointment/submit/index',
 };
 
 /**

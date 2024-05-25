@@ -15,12 +15,22 @@ import { logUtil } from '@/utils/log';
 const Home = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [showLoading, hideLoading] = useLoading();
+  const [userInfo, setUserInfo] = useState({
+    avatarUrl: null,
+    gender: null,
+    mobile: null,
+    name: null,
+    nickName: null,
+    userCode: null
+  });
   const { navigate } = useNavigator();
   const { current: loginService } = useRef(new LoginService());
   const toast = useToast();
 
   useEffect(() => {
     const token = storage.getToken();
+    const userInfo = storage.getUserInfo();
+    userInfo && setUserInfo(userInfo);
     if(token) {
       setIsLogin(true);
     } else {
@@ -82,6 +92,8 @@ const Home = () => {
     storage.setUserInfo(userInfo);
     storage.setToken(token);
     hideLoading();
+    setUserInfo(userInfo);
+    setIsLogin(true);
   };
 
   /** 修改用户信息 */
@@ -112,10 +124,10 @@ const Home = () => {
           </View>
           <View className="text-[#333]">
             <View className='flex items-center'>
-              <View>微信用户</View>
+              <View>{ userInfo?.name || '微信用户'}</View>
               <Image className="w-[12px] h-[12px] ml-[10px]" src={editIcon} onClick={editUserInfo} />
             </View>
-            <View className='text-[12px]'>18888888888</View>
+            <View className='text-[12px]'>{ userInfo?.mobile}</View>
           </View>
         </View>
         <View className='mt-[50px]'>

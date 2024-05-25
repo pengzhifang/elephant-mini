@@ -30,7 +30,6 @@ export default function Index() {
 
   // 尝试 openid 登录
   useEffect(() => {
-    showLoading({ title: '加载中', mask: true });
     tryLogin();
     logUtil.info('miniEntryParams', params);
   }, []);
@@ -41,6 +40,7 @@ export default function Index() {
   const tryLogin = () => {
     const token = storage.getToken();
     if (!token) {
+      showLoading({ title: '加载中', mask: true });
       login({
         success: (res) => {
           const { code } = res;

@@ -1,10 +1,27 @@
 import { Input, View, Image } from "@tarojs/components";
 import dingweiIcon from  '@/images/icon_dingwei.png';
 import ConfirmModal from './confirmModal'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Taro, { requirePlugin } from "@tarojs/taro";
 
 const Appointment = () => {
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(true);
+  const chooseLocation = requirePlugin('chooseLocation');
+
+  useEffect(() => {
+    const location = chooseLocation.getLocation();
+    console.log(location, 'location')
+  }, [])
+
+  const locateSelect = () => {
+    const key = 'TWLBZ-TRYYT-2HNXL-V54U2-EL72E-3RFDA'; //使用在腾讯位置服务申请的key
+    const referer = 'elephant-mini'; //调用插件的app的名称
+    const category = '生活服务,家政服务';
+
+    Taro.navigateTo({
+      url: `plugin://chooseLocation/index?key=${key}&referer=${referer}&category=${category}`
+    });
+  }
 
   const confirm = () => {
     setShowConfirm(true);
@@ -17,7 +34,7 @@ const Appointment = () => {
         <View className="relative">
           <Input className='h-[52px] rounded-[10px] border border-solid border-[#999] opacity-50 pl-[15px]' placeholder="请输入小区名进行检索" />
           <View className="w-[1px] h-[19px] bg-[#999] absolute right-[56px] top-1/2 transform -translate-y-1/2 opacity-50"></View>
-          <View className="absolute right-[15px] top-1/2 transform -translate-y-1/2 text-center">
+          <View className="absolute right-[15px] top-1/2 transform -translate-y-1/2 text-center" onClick={locateSelect}>
             <Image src={dingweiIcon} className="w-[11px] h-[15px] mb-[2px]"></Image>
             <View className="text-[12px]">定位</View>
           </View>
