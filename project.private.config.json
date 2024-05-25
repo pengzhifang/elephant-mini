@@ -4,17 +4,5 @@
   "setting": {
     "compileHotReLoad": false
   },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "pages/appointment/submit/index",
-          "pathName": "pages/appointment/submit/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
-  }
+  "condition": {}
 }

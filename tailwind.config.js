@@ -13,6 +13,11 @@ module.exports = {
         'PF-ME': ['PingFangSC-Medium', 'PingFang SC'],
         'PF-RE': ['PingFangSC-Regular', 'PingFang SC'],
       },
+      colors: {
+        '333': '#333333',
+        '666': '#666666',
+        '999': '#999999',
+      },
       backgroundColor: {
         'rgba02': 'rgba(0,0,0,0.2)'
       },

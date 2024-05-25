@@ -21,7 +21,7 @@ const EditUserInfo = () => {
       <Input className='' placeholder="请输入姓名" />
       <View className="flex mt-[20px]">
         <Image src={tipsIcon} className="w-[12px] h-[12px] mr-[9px] mt-[5px] flex-shrink-0"></Image>
-        <Text className="text-[#999] text-[14px]">为方便司机联系，请填写姓名或类似“XX先生/女士”称呼</Text>
+        <Text className="text-999 text-[14px]">为方便司机联系，请填写姓名或类似“XX先生/女士”称呼</Text>
       </View>
       <View className="w-[90%] h-[54px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white absolute bottom-[30px]" onClick={confrim}>确认</View>
     </View>

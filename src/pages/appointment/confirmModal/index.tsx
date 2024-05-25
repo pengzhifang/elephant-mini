@@ -16,10 +16,10 @@ const ConfirmModal = () => {
 
   return (
     <View className='fixed left-0 top-0 w-screen h-screen flex flex-col justify-center items-center bg-rgba02'>
-      <View className='w-[230px] h-[230px] p-[20px] bg-white rounded-[10px] relative font-PF text-[#999]'>
+      <View className='w-[230px] h-[230px] p-[20px] bg-white rounded-[10px] relative font-PF text-999'>
         <Image src={modalBg} className='w-full h-[72px] absolute top-0 left-0 z-0'></Image>
         <View className="relative z-1">
-          <View className="text-center text-[#333] font-medium">信息确认</View>
+          <View className="text-center text-333 font-medium">信息确认</View>
           <View className="mt-[20px] font-medium text-center">华润橡树湾A区</View>
           <View className="mt-[10px] text-[12px]">所属物业：广州恒大物业</View>
           <View className="mt-[5px] text-[12px]">所属地区：广州市白云区XX街道</View>

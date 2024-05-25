@@ -11,7 +11,11 @@ export default {
     {
       root: 'pages/appointment',
       pages: ['index', 'appointment-order/index', 'submit/index'],
-    }
+    },
+    {
+      root: 'pages/orderList',
+      pages: ['index'],
+    },
   ],
   window: {
     backgroundTextStyle: 'light',
