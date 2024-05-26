@@ -50,6 +50,14 @@ export const Login = {
    * @link http://120.76.248.231/doc.html#/API/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3/loginUsingPOST_2
    */
   register: host + '/open-api/wx/v1/register',
-
-  
+  /**
+   * 获取用户信息
+   * @link http://120.76.248.231/doc.html#/API/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/updateUsingPOST_7
+   */
+  getUserInfo: host + '/user-api/user/v1/info',
+  /**
+   * 修改用户信息
+   * @link http://120.76.248.231/doc.html#/API/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/updateUsingPOST_7
+   */
+  updateUserInfo: host + '/user-api/user/v1/update',
 };

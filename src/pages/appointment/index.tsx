@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Taro, { requirePlugin } from "@tarojs/taro";
 
 const Appointment = () => {
-  const [showConfirm, setShowConfirm] = useState(true);
+  const [showConfirm, setShowConfirm] = useState(false);
   const chooseLocation = requirePlugin('chooseLocation');
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Appointment = () => {
         <View className="h-[54px] rounded-[10px] mt-[50px] bg-[#0091FF] flex items-center justify-center text-[18px] text-white font-semibold" onClick={confirm}>确定</View>
         <View className='w-full text-999 text-center text-[12px] absolute bottom-[30px]'>客服电话： 18888888888 （工作日 09:00-18:00）</View>
       </View>
-      {showConfirm && <ConfirmModal></ConfirmModal>}
+      {showConfirm && <ConfirmModal setShowConfirm={setShowConfirm}></ConfirmModal>}
     </View>
   )
 }
