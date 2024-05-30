@@ -61,3 +61,8 @@ export const Login = {
    */
   updateUserInfo: host + '/user-api/user/v1/update',
 };
+
+/** 订单相关 */
+export const Order = {
+  getResidential: host + '/user-api/residential/v1/list',
+}

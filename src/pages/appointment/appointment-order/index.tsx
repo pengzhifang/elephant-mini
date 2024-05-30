@@ -6,13 +6,27 @@ import arrowIcon from '@/images/ico_more@2x.png';
 import './index.scss'
 import { OpenType, useNavigator } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
-import Taro from "@tarojs/taro";
-import { useState } from "react";
+import Taro, { useRouter } from "@tarojs/taro";
+import { useEffect, useState } from "react";
 
 const AppointmentOrder = () => {
   const { navigate } = useNavigator();
+  const { params } = useRouter();
   const [imageUrl, setImageUrl] = useState('');
+  const [addressInfo, setAddressInfo] = useState<any>();
 
+  useEffect(() => {
+    setAddressInfo({
+      name: decodeURIComponent(params.name!),
+      propertyManagementName: decodeURIComponent(params.propertyManagementName!),
+      cityName: decodeURIComponent(params.cityName!),
+      areaName: decodeURIComponent(params.areaName!),
+      townName: decodeURIComponent(params.townName!),
+      address: decodeURIComponent(params.address!),
+    })
+    console.log(params, addressInfo, 9999);
+  }, [])
+  
   const confirm = () => {
     navigate({
       url: routerPath.submit,
@@ -41,10 +55,10 @@ const AppointmentOrder = () => {
       <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center rounded-[15px]">
         <Image src={dingweiIcon} className="w-[78px] h-[92px] mr-[18px]"></Image>
         <View className="text-333">
-          <View className="font-medium">华润橡树湾A区</View>
-          <View className="mt-[2px] text-[12px]">所属物业：广州恒大物业</View>
-          <View className="mt-[2px] text-[12px]">所属地区：广州市白云区XX街道</View>
-          <View className="mt-[2px] text-[12px]">详细地址：西土城路86号</View>
+          <View className="font-medium">{addressInfo?.name}</View>
+          <View className="mt-[2px] text-[12px]">所属物业：{addressInfo?.propertyManagementName}</View>
+          <View className="mt-[2px] text-[12px]">所属地区：{addressInfo?.cityName + addressInfo?.areaName + addressInfo?.townName}</View>
+          <View className="mt-[2px] text-[12px]">详细地址：{addressInfo?.address}</View>
         </View>
       </View>
       <View className="mt-[20px] pt-[10px] pb-[30px] px-[15px] order-info bg-white rounded-[15px]">
