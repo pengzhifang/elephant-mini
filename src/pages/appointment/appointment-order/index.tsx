@@ -8,12 +8,21 @@ import { OpenType, useNavigator } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
 import Taro, { useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
+import SelectTime from "./select-time";
 
 const AppointmentOrder = () => {
   const { navigate } = useNavigator();
   const { params } = useRouter();
   const [imageUrl, setImageUrl] = useState('');
+  const [showSelectTime, setShowSelectTime] = useState(false);
   const [addressInfo, setAddressInfo] = useState<any>();
+  const [orderInfo, setOrderInfo] = useState<any>({
+    nickname: '',
+    mobile: '',
+    clearDate: '',
+    clearTime: '',
+    userRemark: ''
+  });
 
   useEffect(() => {
     setAddressInfo({
@@ -24,8 +33,31 @@ const AppointmentOrder = () => {
       townName: decodeURIComponent(params.townName!),
       address: decodeURIComponent(params.address!),
     })
-    console.log(params, addressInfo, 9999);
-  }, [])
+  }, [params])
+
+  const changeUserInfo = (event, type) => {
+    switch(type) {
+      case 'nickname': 
+        setOrderInfo({
+          ...orderInfo,
+          nickname: event.target.value
+        });
+        break;
+      case 'mobile': 
+        setOrderInfo({
+          ...orderInfo,
+          mobile: event.target.value
+        });
+        break;
+      case 'userRemark': 
+        setOrderInfo({
+          ...orderInfo,
+          userRemark: event.target.value
+        });
+        break;
+      default: break;
+    }
+  }
   
   const confirm = () => {
     navigate({
@@ -50,6 +82,17 @@ const AppointmentOrder = () => {
     })
   }
 
+  const handleSelectTimeShow = (val?) => {
+    setShowSelectTime(false);
+    if(val) {
+      setOrderInfo({
+        ...orderInfo,
+        clearDate: val.clearDate,
+        clearTime: val.clearTime
+      })
+    }
+  }
+
   return (
     <View className="w-screen min-h-screen bg-[#F7F9FF] px-[15px] pb-[20px] font-PF text-999">
       <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center rounded-[15px]">
@@ -67,22 +110,22 @@ const AppointmentOrder = () => {
             <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
             <View className="font-semibold text-333 ml-[5px]">联系人</View>
           </View>
-          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入" />
+          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入" value={orderInfo?.nickname} onInput={(event:any) => changeUserInfo(event, 'nickname')} />
         </View>
         <View className="mt-[30px] flex items-center justify-between">
           <View className="flex items-center">
             <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
             <View className="font-semibold text-333 ml-[5px]">联系方式</View>
           </View>
-          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入11位手机号" />
+          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入11位手机号" value={orderInfo?.mobile} onInput={(event:any) => changeUserInfo(event, 'mobile')} />
         </View>
         <View className="mt-[30px] flex items-center justify-between">
           <View className="flex items-center">
             <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
             <View className="font-semibold text-333 ml-[5px]">期望清运时间</View>
           </View>
-          <View className="flex items-center">
-            <View>请选择</View>
+          <View className="flex items-center" onClick={() => { setShowSelectTime(true); }}>
+            <View>{ orderInfo.clearDate? orderInfo.clearDate + ' ' + orderInfo.clearTime : '请选择' }</View>
             <Image src={arrowIcon} className="w-[15px] h-[15px] ml-[5px]"></Image>
           </View>
         </View>
@@ -124,9 +167,12 @@ const AppointmentOrder = () => {
           <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
           <View className="font-semibold text-333 ml-[5px]">备注</View>
         </View>
-        <Textarea className="h-[52px] mt-[10px] border border-solid border-999 rounded-[10px] opacity-50 p-[5px]"></Textarea>
+        <Textarea className="h-[52px] mt-[10px] border border-solid border-999 rounded-[10px] opacity-50 p-[5px]" value={orderInfo?.userRemark} onInput={(event:any) => changeUserInfo(event, 'userRemark')}></Textarea>
       </View>
       <View className="h-[54px] mt-[30px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white" onClick={confirm}>确认</View>
+      {
+        showSelectTime && <SelectTime changeShow={handleSelectTimeShow} />
+      }
     </View>
   )
 }
