@@ -30,4 +30,37 @@ export class OrderService extends BaseService {
       params,
     );
   }
+
+  /**
+   * 下单
+   * @param params 请求参数
+   */
+  createOrder(params: any) {
+    return this.post<string>(
+      Order.createOrder,
+      params,
+    );
+  }
+
+  /**
+   * 订单支付
+   * @param params 请求参数
+   */
+  orderPay(params: any) {
+    return this.post<string>(
+      Order.orderPay,
+      params,
+    );
+  }
+
+  /**
+   * 订单列表
+   * @param params 请求参数
+   */
+  orderList(params: any) {
+    return this.post<any>(
+      Order.orderList,
+      params,
+    );
+  }
 }

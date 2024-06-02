@@ -5,17 +5,21 @@ import photoIcon from '@/images/icon_xiangji.png';
 import arrowIcon from '@/images/ico_more@2x.png';
 import closeIcon from '@/images/close.png';
 import './index.scss'
-import { OpenType, useNavigator } from "@/hooks/index";
+import { OpenType, useNavigator, useToast } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
 import Taro, { useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
 import SelectTime from "./select-time";
 import { storage } from "@/services/storage.service";
+import { OrderService } from "@/services/order.service";
+
+const orderService = new OrderService();
 
 const AppointmentOrder = () => {
   const userInfo = storage.getUserInfo();
   const { navigate } = useNavigator();
   const { params } = useRouter();
+  const toast = useToast();
   const [imageUrlArr, setImageUrlArr] = useState<any>([]);
   const [showSelectTime, setShowSelectTime] = useState<boolean>(false);
   const [addressInfo, setAddressInfo] = useState<any>();
@@ -62,12 +66,38 @@ const AppointmentOrder = () => {
     }
   }
 
-  const confirm = () => {
-    navigate({
-      url: routerPath.submit,
-      openType: OpenType.navigate,
-      params: {}
+  const confirm = async() => {
+    const { nickname, mobile, clearDate, clearTime, userRemark } = orderInfo;
+    if(!params.id || !nickname || !mobile || !clearDate || !clearTime) {
+      toast({ title: '请完善预约信息', icon: 'none', mask: true });
+      return;
+    }
+    const res = await orderService.createOrder({
+      userCode: userInfo.userCode,
+      nickname,
+      mobile,
+      residentialManagementId: params.id,
+      clearDate,
+      clearTime,
+      carType: 1, // 车辆类型(1小型车,2中型车)-本次暂定小型车
+      rubbishImgs: imageUrlArr.join(','),
+      userRemark
     });
+    const { result, data, status, msg } = res;
+    if(result) {
+      navigate({
+        url: routerPath.submit,
+        openType: OpenType.navigate,
+        params: {
+          orderCode: data
+        }
+      });
+    } else {
+      toast({
+        title: `${status}: ${msg}`,
+        icon: 'none',
+      });
+    }
   }
 
   const chooseImage = () => {

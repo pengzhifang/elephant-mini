@@ -66,4 +66,7 @@ export const Login = {
 export const Order = {
   getGeneralConfig: host + '/open-api/commonConfig/v1/query',
   getResidential: host + '/user-api/residential/v1/list',
+  createOrder: host + '/user-api/order/v1/create',
+  orderPay: host + '/user-api/order/v1/pay',
+  orderList: host + '/user-api/order/v1/list',
 }

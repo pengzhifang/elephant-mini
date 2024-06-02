@@ -147,7 +147,7 @@ const Home = () => {
         <View className='mt-[40px] flex items-center'>
           <View className='flex flex-col items-center'>
             <Image className='w-[20px] h-[20px]' src={yuyueIcon}></Image>
-            <View className='text-[14px] text-666 mt-[6px]'>清运预约</View>
+            <View className='text-[14px] text-666 mt-[6px]' onClick={order}>清运预约</View>
           </View>
           <View className='flex flex-col items-center ml-[20px]' onClick={toOrderList}>
             <Image className='w-[20px] h-[20px]' src={dingdanIcon}></Image>

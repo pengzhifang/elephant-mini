@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useToast } from "@/hooks/useToast";
 import { OrderService } from "@/services/order.service";
+import { dateFormat } from "@/utils/utils";
 
 export interface Props {
   changeShow: (value?) => void
@@ -14,8 +15,7 @@ const orderService = new OrderService();
 const SelectTime = (props: Props) => {
   const { changeShow } = props;
   const [clearDateList, setClearDateList] = useState([
-    { name: '', val: '' },
-    { name: '', val: '' },
+    { name: '', val: '', valStr: '' }
   ])
   const [clearTimeList, setClearTimeList] = useState<any>([])
   const [clearDateInfo, setClearDateInfo] = useState({
@@ -25,10 +25,15 @@ const SelectTime = (props: Props) => {
   const toast = useToast();
 
   useEffect(() => {
-    const today = new Date().getDate();
+    let tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    let date1 = tomorrow.getDate();
+
+    // 获取后天的年月日
+    let afterTomorrow = new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000);
+    let date2 = afterTomorrow.getDate();
     setClearDateList([
-      { name: `${today+1}日（明天）`, val: `${today+1}日` },
-      { name: `${today+2}日（后天）`, val: `${today+2}日` },
+      { name: `${date1}日（明天）`, val: `${date1}日`, valStr: dateFormat(tomorrow) },
+      { name: `${date2}日（后天）`, val: `${date2}日`, valStr: dateFormat(afterTomorrow)},
     ])
     getGeneralConfig();
   }, [])
@@ -48,10 +53,10 @@ const SelectTime = (props: Props) => {
     }
   }
 
-  const selectDate = (val) => {
+  const selectDate = (item) => {
     setClearDateInfo({
       ...clearDateInfo,
-      clearDate: val
+      clearDate: item.valStr
     })
   }
 
@@ -87,8 +92,8 @@ const SelectTime = (props: Props) => {
             clearDateList.map(x => {
               return (
                 <View
-                  className={classNames("px-[10px] py-[5px] rounded-[8px] border border-solid border-[#999] mr-[10px]", { 'bg-[#0091FF] text-white border-transparent': x.val === clearDateInfo.clearDate })}
-                  onClick={() => selectDate(x.val)}>{x.name}</View>
+                  className={classNames("px-[10px] py-[5px] rounded-[8px] border border-solid border-[#999] mr-[10px]", { 'bg-[#0091FF] text-white border-transparent': x.valStr === clearDateInfo.clearDate })}
+                  onClick={() => selectDate(x)}>{x.name}</View>
               )
             })
           }

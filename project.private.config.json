@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/appointment/submit/index",
+          "pathName": "pages/appointment/submit/index",
+          "query": "orderCode=24060223414964",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/appointment/appointment-order/index",
           "pathName": "pages/appointment/appointment-order/index",
           "query": "",
