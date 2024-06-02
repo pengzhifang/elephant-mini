@@ -64,5 +64,6 @@ export const Login = {
 
 /** 订单相关 */
 export const Order = {
+  getGeneralConfig: host + '/open-api/commonConfig/v1/query',
   getResidential: host + '/user-api/residential/v1/list',
 }

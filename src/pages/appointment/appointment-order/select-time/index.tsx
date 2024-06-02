@@ -3,10 +3,13 @@ import closeIcon from '@/images/close.png';
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useToast } from "@/hooks/useToast";
+import { OrderService } from "@/services/order.service";
 
 export interface Props {
   changeShow: (value?) => void
 }
+
+const orderService = new OrderService();
 
 const SelectTime = (props: Props) => {
   const { changeShow } = props;
@@ -14,7 +17,7 @@ const SelectTime = (props: Props) => {
     { name: '', val: '' },
     { name: '', val: '' },
   ])
-  const [clearTimeList, setClearTimeList] = useState(["06:00-09:00", "09:00-12:00", "12:00-15:00", "15:00-18:00"])
+  const [clearTimeList, setClearTimeList] = useState<any>([])
   const [clearDateInfo, setClearDateInfo] = useState({
     clearDate: '',
     clearTime: ''
@@ -27,7 +30,23 @@ const SelectTime = (props: Props) => {
       { name: `${today+1}日（明天）`, val: `${today+1}日` },
       { name: `${today+2}日（后天）`, val: `${today+2}日` },
     ])
+    getGeneralConfig();
   }, [])
+  
+  const getGeneralConfig = async () => {
+    const res = await orderService.getGeneralConfig({
+      code: 'hello'
+    });
+    const { result, data, status, msg } = res;
+    if(result) {
+      setClearTimeList(data || []);
+    } else {
+      toast({
+        title: `${status}: ${msg}`,
+        icon: 'none',
+      });
+    }
+  }
 
   const selectDate = (val) => {
     setClearDateInfo({
@@ -81,8 +100,8 @@ const SelectTime = (props: Props) => {
               clearTimeList.map(x => {
                 return (
                   <View
-                    className={classNames("px-[10px] py-[5px] rounded-[8px] border border-solid border-[#999] mb-[10px]", { 'bg-[#0091FF] text-white border-transparent': x === clearDateInfo.clearTime })}
-                    onClick={() => selectTime(x)}>{x}</View>
+                    className={classNames("px-[10px] py-[5px] rounded-[8px] border border-solid border-[#999] mb-[10px]", { 'bg-[#0091FF] text-white border-transparent': x.name === clearDateInfo.clearTime })}
+                    onClick={() => selectTime(x.name)}>{x.name}</View>
                 )
               })
             }

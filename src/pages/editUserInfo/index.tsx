@@ -11,16 +11,17 @@ import { storage } from "@/services/storage.service";
 const loginService = new LoginService();
 
 const EditUserInfo = () => {
+  const userInfo = storage.getUserInfo();
   const { navigate } = useNavigator();
   const toast = useToast();
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState(userInfo.name);
   
   const confrim = async () => {
     if(!userName) {
       toast({ title: '请输入姓名', icon: 'none', mask: true });
       return;
     }
-    const userInfo = storage.getUserInfo();
+    
     const res = await loginService.updateUserInfo({
       userCode: userInfo.userCode,
       name: userName

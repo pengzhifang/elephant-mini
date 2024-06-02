@@ -2,11 +2,22 @@ import { BaseService } from '.';
 import { Order } from '../configs';
 
 /**
- * 迪昂丹相关
+ * 订单相关
  */
 export class OrderService extends BaseService {
   constructor() {
     super();
+  }
+
+  /**
+   * 获取通用配置信息
+   * @param params 请求参数
+   */
+  getGeneralConfig(params: any) {
+    return this.get<string>(
+      Order.getGeneralConfig,
+      params,
+    );
   }
 
   /**

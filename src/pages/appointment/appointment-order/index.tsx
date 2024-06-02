@@ -3,22 +3,25 @@ import dingweiIcon from '@/images/icon_dingwei1.png';
 import carIcon from '@/images/icon_qiche.png';
 import photoIcon from '@/images/icon_xiangji.png';
 import arrowIcon from '@/images/ico_more@2x.png';
+import closeIcon from '@/images/close.png';
 import './index.scss'
 import { OpenType, useNavigator } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
 import Taro, { useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
 import SelectTime from "./select-time";
+import { storage } from "@/services/storage.service";
 
 const AppointmentOrder = () => {
+  const userInfo = storage.getUserInfo();
   const { navigate } = useNavigator();
   const { params } = useRouter();
-  const [imageUrl, setImageUrl] = useState('');
-  const [showSelectTime, setShowSelectTime] = useState(false);
+  const [imageUrlArr, setImageUrlArr] = useState<any>([]);
+  const [showSelectTime, setShowSelectTime] = useState<boolean>(false);
   const [addressInfo, setAddressInfo] = useState<any>();
   const [orderInfo, setOrderInfo] = useState<any>({
-    nickname: '',
-    mobile: '',
+    nickname: userInfo?.name,
+    mobile: userInfo?.mobile,
     clearDate: '',
     clearTime: '',
     userRemark: ''
@@ -36,20 +39,20 @@ const AppointmentOrder = () => {
   }, [params])
 
   const changeUserInfo = (event, type) => {
-    switch(type) {
-      case 'nickname': 
+    switch (type) {
+      case 'nickname':
         setOrderInfo({
           ...orderInfo,
           nickname: event.target.value
         });
         break;
-      case 'mobile': 
+      case 'mobile':
         setOrderInfo({
           ...orderInfo,
           mobile: event.target.value
         });
         break;
-      case 'userRemark': 
+      case 'userRemark':
         setOrderInfo({
           ...orderInfo,
           userRemark: event.target.value
@@ -58,7 +61,7 @@ const AppointmentOrder = () => {
       default: break;
     }
   }
-  
+
   const confirm = () => {
     navigate({
       url: routerPath.submit,
@@ -77,14 +80,19 @@ const AppointmentOrder = () => {
       success: (res) => {
         console.log(res);
         const { tempFiles } = res;
-        setImageUrl(tempFiles[0].tempFilePath);
+        setImageUrlArr([...imageUrlArr, tempFiles[0].tempFilePath]);
       }
     })
   }
 
+  const deleteImage = (index) => {
+    imageUrlArr.splice(index, 1);
+    setImageUrlArr([...imageUrlArr]);
+  }
+
   const handleSelectTimeShow = (val?) => {
     setShowSelectTime(false);
-    if(val) {
+    if (val) {
       setOrderInfo({
         ...orderInfo,
         clearDate: val.clearDate,
@@ -110,14 +118,14 @@ const AppointmentOrder = () => {
             <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
             <View className="font-semibold text-333 ml-[5px]">联系人</View>
           </View>
-          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入" value={orderInfo?.nickname} onInput={(event:any) => changeUserInfo(event, 'nickname')} />
+          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入" value={orderInfo?.nickname} onInput={(event: any) => changeUserInfo(event, 'nickname')} />
         </View>
         <View className="mt-[30px] flex items-center justify-between">
           <View className="flex items-center">
             <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
             <View className="font-semibold text-333 ml-[5px]">联系方式</View>
           </View>
-          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入11位手机号" value={orderInfo?.mobile} onInput={(event:any) => changeUserInfo(event, 'mobile')} />
+          <Input className='text-right text-999 placeholder:font-PF placeholder:text-999' placeholder="请输入11位手机号" value={orderInfo?.mobile} onInput={(event: any) => changeUserInfo(event, 'mobile')} />
         </View>
         <View className="mt-[30px] flex items-center justify-between">
           <View className="flex items-center">
@@ -125,7 +133,7 @@ const AppointmentOrder = () => {
             <View className="font-semibold text-333 ml-[5px]">期望清运时间</View>
           </View>
           <View className="flex items-center" onClick={() => { setShowSelectTime(true); }}>
-            <View>{ orderInfo.clearDate? orderInfo.clearDate + ' ' + orderInfo.clearTime : '请选择' }</View>
+            <View>{orderInfo.clearDate ? orderInfo.clearDate + ' ' + orderInfo.clearTime : '请选择'}</View>
             <Image src={arrowIcon} className="w-[15px] h-[15px] ml-[5px]"></Image>
           </View>
         </View>
@@ -154,12 +162,17 @@ const AppointmentOrder = () => {
           <View className="font-semibold text-333 ml-[5px]">请拍照上传垃圾图片</View>
         </View>
         <View className="flex items-center">
-          {imageUrl && <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF] mr-[10px]" onClick={chooseImage}>
-            <Image src={imageUrl} className="w-[40px] h-[35px]"></Image>
-          </View>}
-          <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF]" onClick={chooseImage}>
+          {imageUrlArr.map((x, index) => {
+            return (
+              <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF] mr-[10px] relative">
+                <Image src={x} className="w-[40px] h-[35px]"></Image>
+                <Image src={closeIcon} className="w-[20px] h-[20px] absolute top-[-5px] right-[-5px]" onClick={() => { deleteImage(index) }}></Image>
+              </View>
+            )
+          })}
+          {imageUrlArr.length < 3 && <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF]" onClick={chooseImage}>
             <Image src={photoIcon} className="w-[40px] h-[35px]"></Image>
-          </View>
+          </View>}
         </View>
       </View>
       <View className="bg-white mt-[20px] p-[15px] rounded-[15px]">
@@ -167,7 +180,7 @@ const AppointmentOrder = () => {
           <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
           <View className="font-semibold text-333 ml-[5px]">备注</View>
         </View>
-        <Textarea className="h-[52px] mt-[10px] border border-solid border-999 rounded-[10px] opacity-50 p-[5px]" value={orderInfo?.userRemark} onInput={(event:any) => changeUserInfo(event, 'userRemark')}></Textarea>
+        <Textarea className="h-[52px] mt-[10px] border border-solid border-999 rounded-[10px] opacity-50 p-[5px]" value={orderInfo?.userRemark} onInput={(event: any) => changeUserInfo(event, 'userRemark')}></Textarea>
       </View>
       <View className="h-[54px] mt-[30px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white" onClick={confirm}>确认</View>
       {
