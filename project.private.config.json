@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/appointment/appointment-order/index",
+          "pathName": "pages/appointment/appointment-order/index",
+          "query": "name=%25E5%2585%2589%25E5%25BD%25A9%25E5%25AE%25B6%25E5%259B%25AD&latitude=39.845317&longitude=116.410808&address=%25E6%25B5%258B%25E8%25AF%2595%25E6%2595%25B0%25E6%258D%25AE&province=%25E5%258C%2597%25E4%25BA%25AC%25E5%25B8%2582&city=%25E5%258C%2597%25E4%25BA%25AC%25E5%25B8%2582&district=%25E4%25B8%25B0%25E5%258F%25B0%25E5%258C%25BA&id=3&cityCode=01&cityName=%25E5%25B9%25BF%25E5%25B7%259E%25E5%25B8%2582&areaCode=06&areaName=%25E5%25A4%25A9%25E6%25B2%25B3%25E5%258C%25BA&townCode=001000&townName=%25E4%25BA%2594%25E5%25B1%25B1%25E8%25A1%2597%25E9%2581%2593&propertyManagementId=1&propertyManagementName=%25E6%2581%2592%25E5%25A4%25A7%25E7%2589%25A9%25E4%25B8%259A%25E5%2585%25AC%25E5%258F%25B8&townManagementId=2&contactPersonName=%25E5%25B0%258F%25E9%259B%25B7&contactPersonPhone=13627894939&status=1&creator=qianmo&operator=&createTime=1710658617000&updateTime=null",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/appointment/submit/index",
           "pathName": "pages/appointment/submit/index",
           "query": "orderCode=24060223414964",

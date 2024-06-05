@@ -110,7 +110,26 @@ const AppointmentOrder = () => {
       success: (res) => {
         console.log(res);
         const { tempFiles } = res;
-        setImageUrlArr([...imageUrlArr, tempFiles[0].tempFilePath]);
+        // setImageUrlArr([...imageUrlArr, tempFiles[0].tempFilePath]);
+        let url = process.env.TARO_APP_ENVIRONMENT === 'development'? 'https://api.t.daxiangqingyun.com/open-api/file/v1/upload' : 'https://api.daxiangqingyun.com/open-api/file/v1/upload';
+        Taro.uploadFile({
+          url,
+          filePath: tempFiles[0].tempFilePath, // 微信临时文件路径
+          name: 'file', // 后台定义的参数名
+          header: {
+            'content-type': 'multipart/form-data'
+          },
+          success: function(res) {
+            const data: any = res.data;
+            
+            // 上传成功后的操作
+            setImageUrlArr([...imageUrlArr, data.includes('http')? data.replace('http', 'https') : data]);
+          },
+          fail: function(err) {
+            console.log(err)
+            // 上传失败后的操作
+          }
+    })
       }
     })
   }
