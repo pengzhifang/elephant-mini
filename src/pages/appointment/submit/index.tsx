@@ -13,14 +13,34 @@ const orderService = new OrderService();
 
 const Submit = () => {
   const [isPaid, setIsPaid] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false); // 订单是否失效
   const { navigate } = useNavigator();
   const toast = useToast();
   const { params } = useRouter();
   const [payInfo, setPayInfo] = useState<any>();
+  const [cutdownTime, setCutdownTime] = useState<any>();
 
   useEffect(() => {
-    if(params.orderCode) {
+    if (params.orderCode) {
       payOrder(params.orderCode);
+      let countDownDate = new Date().getTime() + 30 * 60000; //设置半小时倒计时
+
+      let x = setInterval(function () {
+
+        let now = new Date().getTime(); //获取当前的时间
+        let distance = countDownDate - now; //计算剩余的时间
+
+        // let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)) > 9? Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)) : '0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000) > 9? Math.floor((distance % (1000 * 60)) / 1000) : '0' + Math.floor((distance % (1000 * 60)) / 1000);
+
+        setCutdownTime(minutes + ":" + seconds)
+        if (distance < 0) { // 如果倒计时结束
+          clearInterval(x); // 停止倒计时
+          setCutdownTime('00:00');
+          setIsInvalid(true);
+        }
+      }, 1000);
     }
   }, [params])
 
@@ -30,7 +50,7 @@ const Submit = () => {
       openId: storage.getOpenid()
     });
     const { result, data, status, msg } = res;
-    if(result) {
+    if (result) {
       setPayInfo(data);
     } else {
       toast({
@@ -62,22 +82,27 @@ const Submit = () => {
     navigate({
       url: routerPath.home,
       openType: OpenType.navigate,
-      params: {  }
+      params: {}
     });
   }
 
   return (
     <View className="w-full h-screen font-PF">
-      {!isPaid && <View className="mt-[80px]">
+      {!isPaid && !isInvalid && <View className="mt-[80px]">
         <Image className="block w-[80px] h-[70px] mx-auto" src={carIcom} />
         <View className="mt-[20px] mx-auto text-center w-3/4 font-medium text-999 text-[18px]">支付后会有工作人员联系您，安排详细清运时间和事项</View>
-        <View className="text-[12px] text-999 text-center mt-[120px]">订单有效期  59:59</View>
+        <View className="text-[12px] text-999 text-center mt-[120px]">订单有效期  {cutdownTime}</View>
         <View className="mx-[15px] h-[54px] mt-[20px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white text-[18px]" onClick={weixinPay}>去支付</View>
       </View>}
       {isPaid && <View className="mt-[90px]">
         <Image className="block w-[50px] h-[50px] mx-auto" src={completeIcom} />
         <View className="mt-[10px] text-[18px] text-999 text-center">已支付</View>
         <View className="mt-[20px] text-[14px] text-999 text-center">稍后会有工作人员联系您，请注意接听</View>
+        <View className="mx-[15px] h-[54px] mt-[20px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white text-[18px]" onClick={toHome}>返回首页</View>
+      </View>}
+      {!isPaid && isInvalid && <View className="mt-[90px]">
+        <Image className="block w-[80px] h-[70px] mx-auto" src={carIcom} />
+        <View className="mt-[20px] mx-auto text-center w-3/4 font-medium text-999 text-[18px]">订单已失效，请重新下单</View>
         <View className="mx-[15px] h-[54px] mt-[20px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white text-[18px]" onClick={toHome}>返回首页</View>
       </View>}
     </View>

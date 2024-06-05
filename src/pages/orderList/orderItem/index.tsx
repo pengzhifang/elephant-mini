@@ -14,6 +14,8 @@ const OrderItem = (props: Props) => {
       case 0: payText = '待支付'; break;
       case 10: payText = '已取消'; break;
       case 20: payText = '已支付'; break;
+      case 30: payText = '待退费'; break;
+      case 40: payText = '已完成'; break;
       default: break
     }
     return payText;
