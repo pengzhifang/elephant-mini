@@ -17,7 +17,7 @@ const Appointment = () => {
 
   useDidShow(() => {
     const location = chooseLocation.getLocation();
-    console.log(location, 'location');
+    console.log(location, '选取地址location');
     location && setAddressInfo(location);
   })
 

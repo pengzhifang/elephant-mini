@@ -72,7 +72,7 @@ const AppointmentOrder = () => {
       toast({ title: '请完善预约信息', icon: 'none', mask: true });
       return;
     }
-    const res = await orderService.createOrder({
+    const paradata = {
       userCode: userInfo.userCode,
       nickname,
       mobile,
@@ -82,7 +82,9 @@ const AppointmentOrder = () => {
       carType: 1, // 车辆类型(1小型车,2中型车)-本次暂定小型车
       rubbishImgs: imageUrlArr.join(','),
       userRemark
-    });
+    }
+    console.log(paradata, '预约信息')
+    const res = await orderService.createOrder(paradata);
     const { result, data, status, msg } = res;
     if(result) {
       navigate({
@@ -120,10 +122,9 @@ const AppointmentOrder = () => {
             'content-type': 'multipart/form-data'
           },
           success: function(res) {
-            const data: any = res.data;
-            
+            const data: any = res.data && JSON.parse(res.data);
             // 上传成功后的操作
-            setImageUrlArr([...imageUrlArr, data.includes('http')? data.replace('http', 'https') : data]);
+            setImageUrlArr([...imageUrlArr, data.data]);
           },
           fail: function(err) {
             console.log(err)
@@ -151,7 +152,7 @@ const AppointmentOrder = () => {
   }
 
   return (
-    <View className="w-screen min-h-screen bg-[#F7F9FF] px-[15px] pb-[20px] font-PF text-999">
+    <View className="w-screen min-h-screen bg-[#F7F9FF] p-[15px] pb-[20px] font-PF text-999">
       <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center rounded-[15px]">
         <Image src={dingweiIcon} className="w-[78px] h-[92px] mr-[18px]"></Image>
         <View className="text-333">
@@ -210,11 +211,11 @@ const AppointmentOrder = () => {
           <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
           <View className="font-semibold text-333 ml-[5px]">请拍照上传垃圾图片</View>
         </View>
-        <View className="flex items-center">
+        <View className="flex items-center flex-wrap">
           {imageUrlArr.map((x, index) => {
             return (
               <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF] mr-[10px] relative">
-                <Image src={x} className="w-[40px] h-[35px]"></Image>
+                <Image src={x} className="w-[120px] h-[105px]"></Image>
                 <Image src={closeIcon} className="w-[20px] h-[20px] absolute top-[-5px] right-[-5px]" onClick={() => { deleteImage(index) }}></Image>
               </View>
             )

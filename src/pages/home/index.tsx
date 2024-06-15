@@ -2,7 +2,7 @@ import { View, Image, Button, BaseEventOrig, ButtonProps } from '@tarojs/compone
 import './index.scss';
 import navigationBarBg from '@/images/image_dingbu.png';
 import editIcon from '@/images/icon_bianji.png';
-import dingweiIcon from '@/images/icon_dingwei1.png';
+import avatarIcon from '@/images/avatar.png';
 import yuyueIcon from '@/images/icon_yuyue.png';
 import dingdanIcon from '@/images/icon_dingdan.png';
 import { routerPath } from '@/configs/router.config';
@@ -11,10 +11,19 @@ import { useEffect, useRef, useState } from 'react';
 import { storage } from '@/services/storage.service';
 import { LoginService } from '@/services/login.service';
 import { logUtil } from '@/utils/log';
+import { OrderService } from '@/services/order.service';
+import { dateFormat } from '@/utils/utils';
+import OrderItem from '../orderList/orderItem';
+
+const orderService = new OrderService();
 
 const Home = () => {
+  const { navigate } = useNavigator();
+  const toast = useToast();
+  const { current: loginService } = useRef(new LoginService());
   const [isLogin, setIsLogin] = useState(false);
   const [showLoading, hideLoading] = useLoading();
+  const [orderList, setOrderList] = useState<any>([]);
   const [userInfo, setUserInfo] = useState({
     avatarUrl: null,
     gender: null,
@@ -23,9 +32,6 @@ const Home = () => {
     nickName: null,
     userCode: null
   });
-  const { navigate } = useNavigator();
-  const { current: loginService } = useRef(new LoginService());
-  const toast = useToast();
 
   useEffect(() => {
     const token = storage.getToken();
@@ -33,6 +39,7 @@ const Home = () => {
     userInfo && setUserInfo(userInfo);
     if(token) {
       setIsLogin(true);
+      getOrderList();
     } else {
       setIsLogin(false);
     }
@@ -114,7 +121,7 @@ const Home = () => {
     });
   }
 
-  /** 全部订单 */
+  /** 跳转订单列表 */
   const toOrderList = () => {
     navigate({
       url: routerPath.orderList,
@@ -123,13 +130,34 @@ const Home = () => {
     });
   }
 
+  /** 获取未支付/已支付未完成订单 */
+  const getOrderList = async () => {
+    const res = await orderService.orderList({
+      page: 1,
+      size: 20
+    });
+    const { result, data, status, msg } = res;
+    if(result) {
+      data.list?.map(item => {
+        item.clearDate = dateFormat(new Date(item.clearDate))
+      })
+      console.log(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50) )));
+      setOrderList(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50) )));
+    } else {
+      toast({
+        title: `${status}: ${msg}`,
+        icon: 'none',
+      });
+    }
+  }
+
   return (
-    <View className='w-screen h-screen p-[20px] bg-[#F6F8FB] font-PF font-medium'>
+    <View className='w-screen min-h-screen p-[20px] bg-[#F6F8FB] font-PF font-medium'>
       <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />
       {isLogin && <View className='z-[9] relative'>
         <View className='flex items-center'>
           <View className='mr-[10px]'>
-            <Image className="w-[50px] h-[50px] rounded-[100%]" src={dingweiIcon} />
+            <Image className="w-[50px] h-[50px] rounded-[100%]" src={avatarIcon} />
           </View>
           <View className="text-333">
             <View className='flex items-center'>
@@ -144,7 +172,7 @@ const Home = () => {
           <View className='text-center text-999 text-[14px] mt-[10px['>无害化处理，全程无忧，省心之选</View>
           <View className='w-[120px] h-[44px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white mt-[20px] mx-[auto]' onClick={order}>立即预约</View>
         </View>
-        <View className='mt-[40px] flex items-center'>
+        <View className='mt-[40px] flex items-center mb-[20px]'>
           <View className='flex flex-col items-center'>
             <Image className='w-[20px] h-[20px]' src={yuyueIcon}></Image>
             <View className='text-[14px] text-666 mt-[6px]' onClick={order}>清运预约</View>
@@ -154,6 +182,13 @@ const Home = () => {
             <View className='text-[14px] text-666 mt-[6px]'>全部订单</View>
           </View>
         </View>
+        {
+          orderList?.map(item => {
+            return (
+              <OrderItem item={item} payCallBack={() => getOrderList()}></OrderItem>
+            )
+          })
+        }
       </View>}
       {!isLogin && <View className='absolute top-[50%] w-full text-center'>
         <View className='text-[15px] mb-[10px]'>欢迎使用装修垃圾收运小程序</View>

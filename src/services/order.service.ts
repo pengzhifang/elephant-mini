@@ -47,7 +47,7 @@ export class OrderService extends BaseService {
    * @param params 请求参数
    */
   orderPay(params: any) {
-    return this.post<string>(
+    return this.post<any>(
       Order.orderPay,
       params,
     );
