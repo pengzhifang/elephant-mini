@@ -21,10 +21,12 @@ const OrderItem = (props: Props) => {
     switch(status) {
       case 0: payText = '待支付'; break;
       case 10: payText = '已取消'; break;
+      case 11: payText = '已取消'; break;
       case 20: payText = '已支付'; break;
       case 30: payText = '待退费'; break;
       case 40: payText = '待派车'; break;
       case 50: payText = '已完成'; break;
+      case 51: payText = '已退费'; break;
       default: break
     }
     return payText;
@@ -49,8 +51,8 @@ const OrderItem = (props: Props) => {
           payCallBack();
         },
         fail: (res) => {
-          console.log('pay fail', res)
-          payCallBack()
+          console.log('pay fail', res);
+          payCallBack();
         }
       })
     } else {

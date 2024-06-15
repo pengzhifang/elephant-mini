@@ -200,7 +200,7 @@ const Home = () => {
           <View className='btn'>微信授权登录</View>
         </Button>
       </View>}
-      <View className='w-full text-999 text-center text-[12px] absolute bottom-[30px]'>客服电话： 18888888888 （工作日 09:00-18:00）</View>
+      <View className='w-full text-999 text-center text-[12px] absolute bottom-[30px]'>客服电话： 13829707597 （工作日 09:00-18:00）</View>
     </View>
   )
 }

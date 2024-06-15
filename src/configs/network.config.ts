@@ -68,5 +68,6 @@ export const Order = {
   getResidential: host + '/user-api/residential/v1/list',
   createOrder: host + '/user-api/order/v1/create',
   orderPay: host + '/user-api/order/v1/pay',
+  orderCancel: host + '/user-api/order/v1/cancel',
   orderList: host + '/user-api/order/v1/list',
 }

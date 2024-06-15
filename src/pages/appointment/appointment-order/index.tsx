@@ -21,6 +21,7 @@ const AppointmentOrder = () => {
   const { params } = useRouter();
   const toast = useToast();
   const [imageUrlArr, setImageUrlArr] = useState<any>([]);
+  const [imageList, setImageList] = useState<any>([]);
   const [showSelectTime, setShowSelectTime] = useState<boolean>(false);
   const [addressInfo, setAddressInfo] = useState<any>();
   const [orderInfo, setOrderInfo] = useState<any>({
@@ -66,9 +67,9 @@ const AppointmentOrder = () => {
     }
   }
 
-  const confirm = async() => {
+  const confirm = async () => {
     const { nickname, mobile, clearDate, clearTime, userRemark } = orderInfo;
-    if(!params.id || !nickname || !mobile || !clearDate || !clearTime) {
+    if (!params.id || !nickname || !mobile || !clearDate || !clearTime) {
       toast({ title: '请完善预约信息', icon: 'none', mask: true });
       return;
     }
@@ -83,10 +84,10 @@ const AppointmentOrder = () => {
       rubbishImgs: imageUrlArr.join(','),
       userRemark
     }
-    console.log(paradata, '预约信息')
+    console.log(paradata, '预约信息');
     const res = await orderService.createOrder(paradata);
     const { result, data, status, msg } = res;
-    if(result) {
+    if (result) {
       navigate({
         url: routerPath.submit,
         openType: OpenType.navigate,
@@ -104,7 +105,7 @@ const AppointmentOrder = () => {
 
   const chooseImage = () => {
     Taro.chooseMedia({
-      count: 9,
+      count: 3,
       mediaType: ['image'],
       sourceType: ['album', 'camera'],
       maxDuration: 30,
@@ -112,25 +113,7 @@ const AppointmentOrder = () => {
       success: (res) => {
         console.log(res);
         const { tempFiles } = res;
-        // setImageUrlArr([...imageUrlArr, tempFiles[0].tempFilePath]);
-        let url = process.env.TARO_APP_ENVIRONMENT === 'development'? 'https://api.t.daxiangqingyun.com/open-api/file/v1/upload' : 'https://api.daxiangqingyun.com/open-api/file/v1/upload';
-        Taro.uploadFile({
-          url,
-          filePath: tempFiles[0].tempFilePath, // 微信临时文件路径
-          name: 'file', // 后台定义的参数名
-          header: {
-            'content-type': 'multipart/form-data'
-          },
-          success: function(res) {
-            const data: any = res.data && JSON.parse(res.data);
-            // 上传成功后的操作
-            setImageUrlArr([...imageUrlArr, data.data]);
-          },
-          fail: function(err) {
-            console.log(err)
-            // 上传失败后的操作
-          }
-    })
+        uploadImage(tempFiles);
       }
     })
   }
@@ -138,6 +121,66 @@ const AppointmentOrder = () => {
   const deleteImage = (index) => {
     imageUrlArr.splice(index, 1);
     setImageUrlArr([...imageUrlArr]);
+    imageList.splice(index, 1);
+    setImageList([...imageList]);
+  }
+
+  const uploadImage = async(tempFiles) => {
+    if(imageUrlArr.length + tempFiles.length > 3) {
+      toast({ title: '最多上传三张图片', icon: 'none', mask: true });
+      return;
+    }
+    if(tempFiles?.length === 0) {
+      setImageList([...imageList, tempFiles[0].tempFilePath]);
+      let url = process.env.TARO_APP_ENVIRONMENT === 'development' ? 'https://api.t.daxiangqingyun.com/open-api/file/v1/upload' : 'https://api.daxiangqingyun.com/open-api/file/v1/upload';
+      Taro.uploadFile({
+        url,
+        filePath: tempFiles[0].tempFilePath, // 微信临时文件路径
+        name: 'file', // 后台定义的参数名
+        header: {
+          'content-type': 'multipart/form-data'
+        },
+        success: function (res) {
+          const data: any = res.data && JSON.parse(res.data);
+          console.log(data, '上传图片')
+          // 上传成功后的操作
+          setImageUrlArr([...imageUrlArr, data.data]);
+        },
+        fail: function (err) {
+          console.log(err)
+          // 上传失败后的操作
+        }
+      })
+    } else {
+      let url = process.env.TARO_APP_ENVIRONMENT === 'development' ? 'https://api.t.daxiangqingyun.com/open-api/file/v1/upload' : 'https://api.daxiangqingyun.com/open-api/file/v1/upload';
+      let images = [...imageList];
+      tempFiles.map(item => {
+        images.push(item.tempFilePath);
+      })
+      setImageList(images);
+      const promises = tempFiles.map(item => {
+        return Taro.uploadFile({
+          url,
+          filePath: item.tempFilePath, // 微信临时文件路径
+          name: 'file', // 后台定义的参数名
+          header: {
+            'content-type': 'multipart/form-data'
+          },
+          success: function (res) {
+            const data: any = res.data && JSON.parse(res.data);
+            console.log(data, '上传图片')
+            // 上传成功后的操作
+            setImageUrlArr(imagesArr => [...imagesArr, data.data]);
+          },
+          fail: function (err) {
+            console.log(err)
+            // 上传失败后的操作
+          }
+        })
+      });
+      
+      await Promise.all(promises);
+    }
   }
 
   const handleSelectTimeShow = (val?) => {
@@ -212,7 +255,7 @@ const AppointmentOrder = () => {
           <View className="font-semibold text-333 ml-[5px]">请拍照上传垃圾图片</View>
         </View>
         <View className="flex items-center flex-wrap">
-          {imageUrlArr.map((x, index) => {
+          {imageList.map((x, index) => {
             return (
               <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF] mr-[10px] relative">
                 <Image src={x} className="w-[120px] h-[105px]"></Image>
@@ -220,7 +263,7 @@ const AppointmentOrder = () => {
               </View>
             )
           })}
-          {imageUrlArr.length < 3 && <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF]" onClick={chooseImage}>
+          {imageList.length < 3 && <View className="mt-[10px] w-[142px] h-[142px] flex items-center justify-center rounded-[8px] bg-[#F7F9FF]" onClick={chooseImage}>
             <Image src={photoIcon} className="w-[40px] h-[35px]"></Image>
           </View>}
         </View>

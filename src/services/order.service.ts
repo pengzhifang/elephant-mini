@@ -54,6 +54,17 @@ export class OrderService extends BaseService {
   }
 
   /**
+   * 订单取消
+   * @param params 请求参数
+   */
+  orderCancel(params: any) {
+    return this.post<any>(
+      Order.orderCancel,
+      params,
+    );
+  }
+
+  /**
    * 订单列表
    * @param params 请求参数
    */
