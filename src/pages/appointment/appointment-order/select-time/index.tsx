@@ -83,7 +83,7 @@ const SelectTime = (props: Props) => {
     <View className='bg-[rgba(0,0,0,0.5)] w-screen h-screen fixed top-0 left-0 z-40'>
       <View className='absolute bottom-0 left-0 w-full bg-white rounded-t-[20px] p-[20px] max-h-[400px] overflow-y-auto'>
         <View className="flex items-center">
-          <View className="flex-1 text-center">清运时间选择</View>
+          <View className="flex-1 text-center text-333 font-semibold">清运时间选择</View>
           <Image src={closeIcon} className="w-[20px] h-[20px]" onClick={() => { changeShow() }}></Image>
         </View>
         <View className="flex items-center mt-[20px]">

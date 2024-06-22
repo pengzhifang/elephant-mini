@@ -19,7 +19,8 @@ module.exports = {
         '999': '#999999',
       },
       backgroundColor: {
-        'rgba02': 'rgba(0,0,0,0.2)'
+        'rgba02': 'rgba(0,0,0,0.2)',
+        'rgba05': 'rgba(0,0,0,0.5)'
       },
       boxShadow: {
         'shadow1': '0px 1px 11px 3px rgba(12,92,152,0.05)',
