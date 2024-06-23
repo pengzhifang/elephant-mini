@@ -2,9 +2,11 @@ import { Input, View, Image } from "@tarojs/components";
 import ConfirmModal from './confirmModal'
 import { useState } from "react";
 import arrowIcon from '@/images/ico_more@2x.png';
+import weizhiIcon from '@/images/icon_weizhi.png';
 import Taro, { requirePlugin, useDidShow } from "@tarojs/taro";
 import { useToast } from "@/hooks/useToast";
 import { OrderService } from "@/services/order.service";
+import { storage } from '@/services/storage.service';
 
 const orderService = new OrderService();
 
@@ -13,6 +15,7 @@ const Appointment = () => {
   const [addressInfo, setAddressInfo] = useState<any>();
   const chooseLocation = requirePlugin('chooseLocation');
   const toast = useToast();
+  const searchAddressList = storage.getSearchAddress() || [];
 
   useDidShow(() => {
     const location = chooseLocation.getLocation();
@@ -31,7 +34,7 @@ const Appointment = () => {
   }
 
   const confirm = async () => {
-    if(!addressInfo) {
+    if (!addressInfo) {
       toast({
         title: '请选择地址',
         icon: 'none',
@@ -42,14 +45,18 @@ const Appointment = () => {
       name: addressInfo.name
     });
     const { result, data, status, msg } = res;
-    if(result) {
-      if(data.length > 0) {
-        const obj:any = data[0];
+    if (result) {
+      if (data.length > 0) {
+        const obj: any = data[0];
         setAddressInfo({
           ...addressInfo,
           ...obj
         })
         setShowConfirm(true);
+        if (searchAddressList.filter(x => x.id === obj.id).length === 0) {
+          searchAddressList.unshift(obj);
+          storage.setSearchAddress(searchAddressList.splice(0, 2));
+        }
       } else {
         toast({
           title: '该地址暂未开通，敬请期待～',
@@ -64,13 +71,22 @@ const Appointment = () => {
     }
   }
 
+  /** 唤起拨打电话 */
   const callPhone = () => {
     Taro.makePhoneCall({
       phoneNumber: '13829707597',
-      success: function (){
+      success: function () {
         console.log("成功拨打电话")
       }
     })
+  }
+
+  const toOrder = (item) => {
+    setAddressInfo({
+      ...addressInfo,
+      ...item
+    })
+    confirm();
   }
 
   return (
@@ -87,6 +103,21 @@ const Appointment = () => {
           </View>
         </View>
         <View className="h-[54px] rounded-[10px] mt-[50px] bg-[#0091FF] flex items-center justify-center text-[18px] text-white font-semibold" onClick={confirm}>确定</View>
+        {
+          searchAddressList.map(item => {
+            return (
+              <View className="flex mt-[20px]" onClick={() => { toOrder(item) }}>
+                <Image src={weizhiIcon} className="w-[15px] h-[15px] mr-[10px] mt-[3px]"></Image>
+                <View>
+                  <View className="font-medium">{item?.name}</View>
+                  <View className="mt-[10px] text-[12px]">所属物业：{item?.propertyManagementName}</View>
+                  <View className="mt-[5px] text-[12px]">所属地区：{item?.cityName + item?.areaName + item?.townName}</View>
+                  <View className="mt-[5px] text-[12px]">详细地址：{item?.address}</View>
+                </View>
+              </View>
+            )
+          })
+        }
         <View className='w-full text-999 text-[12px] absolute bottom-[30px] flex justify-center items-center'>客服电话： <View className='underline' onClick={callPhone}>13829707597</View> （工作日 09:00-18:00）</View>
       </View>
       {showConfirm && <ConfirmModal addressInfo={addressInfo} setShowConfirm={setShowConfirm}></ConfirmModal>}

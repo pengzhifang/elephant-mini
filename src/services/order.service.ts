@@ -74,4 +74,15 @@ export class OrderService extends BaseService {
       params,
     );
   }
+
+  /**
+   * 获取街道价格配置信息
+   * @param params 请求参数
+   */
+  orderPriceDetail(params: any) {
+    return this.get<string>(
+      Order.orderPriceDetail,
+      params,
+    );
+  }
 }

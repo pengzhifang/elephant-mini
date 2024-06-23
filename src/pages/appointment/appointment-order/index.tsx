@@ -29,7 +29,8 @@ const AppointmentOrder = () => {
     mobile: userInfo?.mobile,
     clearDate: '',
     clearTime: '',
-    userRemark: ''
+    userRemark: '',
+    price: ''
   });
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const AppointmentOrder = () => {
       townName: decodeURIComponent(params.townName!),
       address: decodeURIComponent(params.address!),
     })
+    getTownPriceInfo(params.townManagementId);
   }, [params])
 
   const changeUserInfo = (event, type) => {
@@ -64,6 +66,22 @@ const AppointmentOrder = () => {
         });
         break;
       default: break;
+    }
+  }
+
+  const getTownPriceInfo = async (id) => {
+    const res = await orderService.orderPriceDetail({ id });
+    const { result, data, status, msg } = res;
+    if (result) {
+      setOrderInfo({
+        ...orderInfo,
+        price: (data as any)?.price
+      });
+    } else {
+      toast({
+        title: `${status}: ${msg}`,
+        icon: 'none',
+      });
     }
   }
 
@@ -242,7 +260,7 @@ const AppointmentOrder = () => {
               <View className="ml-[30px] text-center">
                 <View className="text-999 text-[14px]">能装约80～100袋</View>
                 <View className="text-999 text-[14px]">装修垃圾</View>
-                <View className="text-[#0091FF] text-[18px] font-semibold">¥700</View>
+                <View className="text-[#0091FF] text-[18px] font-semibold">¥{ orderInfo.price?.split(',')[0] }</View>
                 <View className="text-999 text-[12px] mt-[10px]">袋参考标准：75厘米*45厘米</View>
               </View>
             </View>

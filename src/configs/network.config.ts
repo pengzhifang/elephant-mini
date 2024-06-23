@@ -70,4 +70,5 @@ export const Order = {
   orderPay: host + '/user-api/order/v1/pay',
   orderCancel: host + '/user-api/order/v1/cancel',
   orderList: host + '/user-api/order/v1/list',
+  orderPriceDetail: host + '/user-api/town/v1/detail',
 }

@@ -97,6 +97,28 @@ class StorageService {
     this.remove(storageKey.userInfo);
   }
 
+  /**
+   * 存储搜索位置记录
+   * @param data UserInfo
+   */
+  setSearchAddress(data: any) {
+    this.set(storageKey.searchAddress, data);
+  }
+
+  /**
+   * 获取搜索位置记录
+   */
+  getSearchAddress() {
+    return this.get(storageKey.searchAddress);
+  }
+
+  /**
+   * 清理搜索位置记录
+   */
+  removeSearchAddress() {
+    this.remove(storageKey.searchAddress);
+  }
+
 }
 
 /**

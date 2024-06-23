@@ -10,6 +10,9 @@ export const storageKey = {
   /**
    * 用户数据
    */
-  userInfo: 'user-info'
-  
+  userInfo: 'user-info',
+  /**
+   * 用户搜索位置记录
+   */
+  searchAddress: 'search-address'
 };
