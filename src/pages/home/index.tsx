@@ -117,6 +117,7 @@ const Home = () => {
     hideLoading();
     setUserInfo(userInfo);
     setIsLogin(true);
+    getOrderList();
   };
 
   /** 修改用户信息 */
@@ -182,7 +183,7 @@ const Home = () => {
   }
 
   return (
-    <View className='w-screen min-h-screen p-[20px] bg-[#F6F8FB] font-PF font-medium'>
+    <View className='w-screen min-h-screen px-[15px] py-[20px] bg-[#F6F8FB] font-PF font-medium'>
       <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />
       {isLogin && <View className='z-[9] relative'>
         <View className='flex items-center'>
@@ -197,12 +198,12 @@ const Home = () => {
             <View className='text-[12px]'>{ userInfo?.mobile}</View>
           </View>
         </View>
-        <View className='mt-[50px]'>
+        <View className='mt-[25px] pt-[25px] pb-[20px] bg-white w-full rounded-[14px] shadow-shadow3'>
           <View className='text-center text-333 text-[20px]'>装修垃圾清运</View>
           <View className='text-center text-999 text-[14px] mt-[10px['>无害化处理，全程无忧，省心之选</View>
           <View className='w-[120px] h-[44px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white mt-[20px] mx-[auto]' onClick={order}>立即预约</View>
         </View>
-        <View className='mt-[40px] flex items-center mb-[20px]'>
+        <View className='mt-[20px] flex items-center mb-[20px]'>
           <View className='flex flex-col items-center' onClick={order}>
             <Image className='w-[20px] h-[20px]' src={yuyueIcon}></Image>
             <View className='text-[14px] text-666 mt-[6px]'>清运预约</View>
@@ -221,7 +222,7 @@ const Home = () => {
         }
       </View>}
       {!isLogin && <View className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-full'>
-        <View className='text-[15px] mb-[10px]'>欢迎使用装修垃圾收运小程序</View>
+        <View className='text-[15px] mb-[10px] text-center'>欢迎使用装修垃圾收运小程序</View>
         <Button
           className='w-[300px] h-[40px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white'
           openType='getPhoneNumber'

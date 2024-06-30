@@ -42,7 +42,7 @@ const OrderList = () => {
   }
 
   return (
-    <View className="h-screen bg-[#F7F9FF] p-[15px]">
+    <View className="min-h-screen bg-[#F7F9FF] p-[15px]">
       {
         orderList?.map(item => {
           return (

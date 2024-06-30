@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import SelectTime from "./select-time";
 import { storage } from "@/services/storage.service";
 import { OrderService } from "@/services/order.service";
+import classNames from "classnames";
 
 const orderService = new OrderService();
 
@@ -213,7 +214,7 @@ const AppointmentOrder = () => {
   }
 
   return (
-    <View className="w-screen min-h-screen bg-[#F7F9FF] p-[15px] pb-[20px] font-PF text-999">
+    <View className={classNames("w-screen min-h-screen bg-[#F7F9FF] p-[15px] pb-[20px] font-PF text-999", { 'h-screen overflow-hidden': showSelectTime })}>
       <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center rounded-[15px]">
         <Image src={dingweiIcon} className="w-[78px] h-[92px] mr-[18px]"></Image>
         <View className="text-333">
