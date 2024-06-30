@@ -152,7 +152,7 @@ export function checkID(val) {
  * @param res
  */
 export function getErrorStr(res, task?) {
-  return (task || '') + ' ' + res.msg + '(' + res.code + ')';
+  return (task || '') + ' ' + res.message + '(' + res.code + ')';
 }
 
 /**

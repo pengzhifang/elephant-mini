@@ -13,6 +13,7 @@ const ConfirmModal = (props: Props) => {
   const { navigate } = useNavigator();
 
   const confirm = () => {
+    setShowConfirm(false);
     navigate({
       url: routerPath.appointmentOrder,
       openType: OpenType.navigate,

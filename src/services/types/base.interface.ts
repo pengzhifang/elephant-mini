@@ -24,7 +24,7 @@ export interface FetchOptions {
 export interface BaseResponse<R = boolean, T = any> {
   result: R;
   status: number; // 返回码
-  msg: string; // 返回消息
+  message: string; // 返回消息
   data: T; // 返回数据
 }
 

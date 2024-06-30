@@ -71,7 +71,7 @@ const AppointmentOrder = () => {
 
   const getTownPriceInfo = async (id) => {
     const res = await orderService.orderPriceDetail({ id });
-    const { result, data, status, msg } = res;
+    const { result, data, status, message } = res;
     if (result) {
       setOrderInfo({
         ...orderInfo,
@@ -79,7 +79,7 @@ const AppointmentOrder = () => {
       });
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }
@@ -104,7 +104,7 @@ const AppointmentOrder = () => {
     }
     console.log(paradata, '预约信息');
     const res = await orderService.createOrder(paradata);
-    const { result, data, status, msg } = res;
+    const { result, data, status, message: msg } = res;
     if (result) {
       navigate({
         url: routerPath.submit,
@@ -115,7 +115,7 @@ const AppointmentOrder = () => {
       });
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${msg}`,
         icon: 'none',
       });
     }
@@ -291,7 +291,7 @@ const AppointmentOrder = () => {
           <View className="w-[3px] h-[12px] rounded-[2px] bg-[#0091FF]"></View>
           <View className="font-semibold text-333 ml-[5px]">备注</View>
         </View>
-        <Textarea className="h-[52px] mt-[10px] border border-solid border-999 rounded-[10px] opacity-50 p-[5px]" value={orderInfo?.userRemark} onInput={(event: any) => changeUserInfo(event, 'userRemark')}></Textarea>
+        <Textarea className="h-[52px] mt-[10px] border border-solid border-999 rounded-[10px] p-[5px]" value={orderInfo?.userRemark} onInput={(event: any) => changeUserInfo(event, 'userRemark')}></Textarea>
       </View>
       <View className="h-[54px] mt-[30px] rounded-[10px] bg-[#0091FF] flex items-center justify-center text-white" onClick={confirm}>确认</View>
       {

@@ -26,10 +26,10 @@ const EditUserInfo = () => {
       userCode: userInfo.userCode,
       name: userName
     });
-    const { result, status, msg } = res;
+    const { result, status, message } = res;
     if(result) {
       const res1 = await loginService.getUserInfo();
-      const { result: result1, data: data1, status: status1, msg: msg1 } = res1;
+      const { result: result1, data: data1, status: status1, message: msg1 } = res1;
       if(result1) {
         toast({
           title: `更新成功`,
@@ -49,7 +49,7 @@ const EditUserInfo = () => {
       }
     }  else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }

@@ -131,7 +131,7 @@ export class BaseService {
     return {
       result: false,
       status: 40001,
-      msg: '网络异常' + error.errMsg,
+      message: '网络异常' + error.errMsg,
       data: null,
     };
   }

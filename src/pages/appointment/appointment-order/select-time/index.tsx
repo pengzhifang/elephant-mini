@@ -42,12 +42,12 @@ const SelectTime = (props: Props) => {
     const res = await orderService.getGeneralConfig({
       code: 'hello'
     });
-    const { result, data, status, msg } = res;
+    const { result, data, status, message } = res;
     if(result) {
       setClearTimeList(data || []);
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }

@@ -84,14 +84,14 @@ const Home = () => {
         }
       });
 
-      const { result, data, status, msg } = res;
+      const { result, data, status, message } = res;
 
       if (result && data) {
         formatUserInfo(data);
         logUtil.info('onGetPhoneNumber', res);
       } else {
         toast({
-          title: `${status}: ${msg}`,
+          title: `${status}: ${message}`,
           icon: 'none',
         });
         logUtil.error('onGetPhoneNumber', res);
@@ -156,7 +156,7 @@ const Home = () => {
       page: 1,
       size: 20
     });
-    const { result, data, status, msg } = res;
+    const { result, data, status, message } = res;
     if(result) {
       data.list?.map(item => {
         item.clearDate = dateFormat(new Date(item.clearDate))
@@ -165,7 +165,7 @@ const Home = () => {
       setOrderList(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50) )));
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }

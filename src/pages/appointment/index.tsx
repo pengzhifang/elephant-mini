@@ -33,41 +33,42 @@ const Appointment = () => {
     });
   }
 
-  const confirm = async () => {
-    if (!addressInfo) {
-      toast({
-        title: '请选择地址',
-        icon: 'none',
+  const confirm = async (logAddress?) => {
+    if (addressInfo?.name || logAddress?.name) {
+      const res = await orderService.getResidential({
+        name: addressInfo?.name || logAddress?.name
       });
-      return;
-    }
-    const res = await orderService.getResidential({
-      name: addressInfo.name
-    });
-    const { result, data, status, msg } = res;
-    if (result) {
-      if (data.length > 0) {
-        const obj: any = data[0];
-        setAddressInfo({
-          ...addressInfo,
-          ...obj
-        })
-        setShowConfirm(true);
-        if (searchAddressList.filter(x => x.id === obj.id).length === 0) {
-          searchAddressList.unshift(obj);
-          storage.setSearchAddress(searchAddressList.splice(0, 2));
+      const { result, data, status, message } = res;
+      if (result) {
+        if (data.length > 0) {
+          const obj: any = data[0];
+          setAddressInfo({
+            ...addressInfo,
+            ...obj
+          })
+          setShowConfirm(true);
+          if (searchAddressList.filter(x => x.id === obj.id).length === 0) {
+            searchAddressList.unshift(obj);
+            storage.setSearchAddress(searchAddressList.splice(0, 2));
+          }
+        } else {
+          toast({
+            title: '该地址暂未开通，敬请期待～',
+            icon: 'none',
+          });
         }
       } else {
         toast({
-          title: '该地址暂未开通，敬请期待～',
+          title: `${status}: ${message}`,
           icon: 'none',
         });
       }
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: '请选择地址',
         icon: 'none',
       });
+      return;
     }
   }
 
@@ -82,11 +83,13 @@ const Appointment = () => {
   }
 
   const toOrder = (item) => {
-    setAddressInfo({
-      ...addressInfo,
-      ...item
-    })
-    confirm();
+    setTimeout(() => {
+      setAddressInfo({
+        ...addressInfo,
+        ...item
+      })
+    }, 100);
+    confirm(item);
   }
 
   return (

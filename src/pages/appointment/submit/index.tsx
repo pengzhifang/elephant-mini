@@ -4,7 +4,7 @@ import completeIcom from '@/images/icon_wancheng.png';
 import { useEffect, useState } from "react";
 import { OpenType, useNavigator, useToast } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
-import { useRouter } from "@tarojs/taro";
+import { useLoad, useRouter, useUnload } from "@tarojs/taro";
 import { OrderService } from "@/services/order.service";
 import { storage } from "@/services/storage.service";
 import Taro from "@tarojs/taro";
@@ -49,12 +49,12 @@ const Submit = () => {
       orderCode,
       openId: storage.getOpenid()
     });
-    const { result, data, status, msg } = res;
+    const { result, data, status, message } = res;
     if (result) {
       setPayInfo(data);
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }
@@ -85,6 +85,27 @@ const Submit = () => {
       params: {}
     });
   }
+
+  useLoad(() => {
+    Taro.enableAlertBeforeUnload({
+      message: '确定要退出吗',
+      success: () => {
+        console.log(1111);
+      },
+      fail: () => {
+        console.log(2222);
+      },
+    })
+  })
+
+  useUnload(() => {
+    console.log('useUnload');
+    navigate({
+      url: routerPath.orderList,
+      openType: OpenType.reLaunch,
+      params: {}
+    });
+  })
 
   return (
     <View className="w-full h-screen font-PF">

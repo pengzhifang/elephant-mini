@@ -26,7 +26,7 @@ const OrderList = () => {
       page: 1,
       size: 50
     });
-    const { result, data, status, msg } = res;
+    const { result, data, status, message } = res;
     if(result) {
       data.list?.map(item => {
         item.clearDate = dateFormat(new Date(item.clearDate))
@@ -34,7 +34,7 @@ const OrderList = () => {
       setOrderList(data.list);
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }

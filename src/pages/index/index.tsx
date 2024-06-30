@@ -45,7 +45,7 @@ export default function Index() {
         success: (res) => {
           const { code } = res;
           loginService.getOpenId({ code: code }).then((res) => {
-            const { result, status, msg, data } = res;
+            const { result, status, message, data } = res;
             if (result && data?.openId) {
               storage.setOpenid(data.openId);
               if(data.token) {
@@ -54,7 +54,7 @@ export default function Index() {
               logUtil.info('getOpenId', res);
             } else {
               toast({
-                title: `${status}: ${msg}`,
+                title: `${status}: ${message}`,
                 icon: 'none',
               });
               logUtil.error('getOpenId', res);
