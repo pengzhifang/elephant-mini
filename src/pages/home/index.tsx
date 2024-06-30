@@ -7,14 +7,14 @@ import yuyueIcon from '@/images/icon_yuyue.png';
 import dingdanIcon from '@/images/icon_dingdan.png';
 import { routerPath } from '@/configs/router.config';
 import { OpenType, useLoading, useNavigator, useToast } from '@/hooks/index';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { storage } from '@/services/storage.service';
 import { LoginService } from '@/services/login.service';
 import { logUtil } from '@/utils/log';
 import { OrderService } from '@/services/order.service';
 import { dateFormat } from '@/utils/utils';
 import OrderItem from '../orderList/orderItem';
-import Taro from '@tarojs/taro';
+import Taro, { usePullDownRefresh } from '@tarojs/taro';
 
 const orderService = new OrderService();
 
@@ -25,6 +25,7 @@ const Home = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [showLoading, hideLoading] = useLoading();
   const [orderList, setOrderList] = useState<any>([]);
+  const [isPullDownRefresh, setIsPullDownRefresh] = useReducer(x => x + 1, 0); // 是否触发下拉刷新
   const [userInfo, setUserInfo] = useState({
     avatarUrl: null,
     gender: null,
@@ -33,9 +34,23 @@ const Home = () => {
     nickName: null,
     userCode: null
   });
+  const token = storage.getToken();
+
+  usePullDownRefresh(() => {
+    setIsPullDownRefresh();
+    const timer = setTimeout(() => {
+      clearTimeout(timer);
+      Taro.stopPullDownRefresh(); // PS: 这里有个坑，下拉刷新不会自动关闭，只能自己模拟关闭
+    }, 800);
+  })
 
   useEffect(() => {
-    const token = storage.getToken();
+    if(token) {
+      getOrderList();
+    }
+  }, [isPullDownRefresh])
+
+  useEffect(() => {
     const userInfo = storage.getUserInfo();
     userInfo && setUserInfo(userInfo);
     if(token) {
@@ -133,6 +148,10 @@ const Home = () => {
 
   /** 获取未支付/已支付未完成订单 */
   const getOrderList = async () => {
+    showLoading({
+      title: '加载中',
+      mask: true,
+    });
     const res = await orderService.orderList({
       page: 1,
       size: 20
@@ -150,6 +169,7 @@ const Home = () => {
         icon: 'none',
       });
     }
+    hideLoading();
   }
 
   const callPhone = () => {
