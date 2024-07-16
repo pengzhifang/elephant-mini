@@ -24,7 +24,8 @@ module.exports = {
       },
       boxShadow: {
         'shadow1': '0px 1px 11px 3px rgba(12,92,152,0.05)',
-        'shadow2': '0px 4px 7px 0px rgba(170,232,213,0.35)'
+        'shadow2': '0px 4px 7px 0px rgba(170,232,213,0.35)',
+        'shadow3': '0px 1px 11px 3px rgba(12,92,152,0.08)'
       }
     },
   },

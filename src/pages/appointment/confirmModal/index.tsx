@@ -27,7 +27,7 @@ const ConfirmModal = (props: Props) => {
 
   return (
     <View className='fixed left-0 top-0 w-screen h-screen flex flex-col justify-center items-center bg-rgba05'>
-      <View className='w-[250px] h-[250px] p-[20px] bg-white rounded-[10px] relative font-PF text-999'>
+      <View className='w-[250px] py-[20px] px-[15px] bg-white rounded-[10px] relative font-PF text-999'>
         <Image src={modalBg} className='w-full h-[72px] absolute top-0 left-0 z-0'></Image>
         <View className="relative z-1">
           <View className="text-center text-[18px] text-333 font-medium">信息确认</View>
