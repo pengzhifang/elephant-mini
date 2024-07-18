@@ -198,7 +198,7 @@ const Home = () => {
             <View className='text-[12px]'>{ userInfo?.mobile}</View>
           </View>
         </View>
-        <View className='mt-[25px] pt-[25px] pb-[20px] bg-white w-full rounded-[14px] shadow-shadow3'>
+        <View className='mt-[24px] w-full bg-white rounded-[14px] shadow-shadow3 pt-[25px] pb-[20px]'>
           <View className='text-center text-333 text-[20px]'>装修垃圾清运</View>
           <View className='text-center text-999 text-[14px] mt-[10px['>无害化处理，全程无忧，省心之选</View>
           <View className='w-[120px] h-[44px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white mt-[20px] mx-[auto]' onClick={order}>立即预约</View>

@@ -26,7 +26,7 @@ const AppointmentOrder = () => {
   const [showSelectTime, setShowSelectTime] = useState<boolean>(false);
   const [addressInfo, setAddressInfo] = useState<any>();
   const [orderInfo, setOrderInfo] = useState<any>({
-    nickname: userInfo?.name,
+    nickname: userInfo?.name || '微信用户',
     mobile: userInfo?.mobile,
     clearDate: '',
     clearTime: '',
@@ -215,7 +215,7 @@ const AppointmentOrder = () => {
 
   return (
     <View className={classNames("w-screen min-h-screen bg-[#F7F9FF] p-[15px] pb-[20px] font-PF text-999", { 'h-screen overflow-hidden': showSelectTime })}>
-      <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center rounded-[15px]">
+      <View className="bg-white pl-[6px] pt-[18px] pb-[10px] flex items-center rounded-[15px] shadow-shadow2">
         <Image src={dingweiIcon} className="w-[78px] h-[92px] mr-[18px]"></Image>
         <View className="text-333">
           <View className="font-medium">{addressInfo?.name}</View>

@@ -1,10 +1,8 @@
 import { View, Image, Input, Text } from "@tarojs/components";
-import navigationBarBg from '@/images/image_dingbu.png';
 import tipsIcon from '@/images/icon_gantanhao.png'
 import { OpenType, useNavigator, useToast } from "@/hooks/index";
 import { routerPath } from "@/configs/router.config";
 import { useState } from "react";
-import Taro from "@tarojs/taro";
 import { LoginService } from "@/services/login.service";
 import { storage } from "@/services/storage.service";
 
@@ -14,14 +12,9 @@ const EditUserInfo = () => {
   const userInfo = storage.getUserInfo();
   const { navigate } = useNavigator();
   const toast = useToast();
-  const [userName, setUserName] = useState(userInfo.name);
+  const [userName, setUserName] = useState(userInfo.name || '微信用户');
   
   const confrim = async () => {
-    if(!userName) {
-      toast({ title: '请输入姓名', icon: 'none', mask: true });
-      return;
-    }
-    
     const res = await loginService.updateUserInfo({
       userCode: userInfo.userCode,
       name: userName
@@ -60,10 +53,9 @@ const EditUserInfo = () => {
   }
 
   return (
-    <View className='w-screen h-screen p-[20px] bg-[#F6F8FB] font-PF'>
-      {/* <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} /> */}
-      <Input className='' placeholder="请输入姓名" value={userName} onInput={(event:any) => changeUserName(event)} />
-      <View className="flex mt-[20px]">
+    <View className='w-screen h-screen px-[15px] py-[20px] bg-[#F6F8FB] font-PF'>
+      <Input className='h-[52px] bg-white rounded-[10px] shadow-shadow2 pl-[10px]' placeholder="请输入姓名" value={userName} onInput={(event:any) => changeUserName(event)} />
+      <View className="flex mt-[5px]">
         <Image src={tipsIcon} className="w-[12px] h-[12px] mr-[9px] mt-[5px] flex-shrink-0"></Image>
         <Text className="text-999 text-[14px]">为方便司机联系，请填写姓名或类似“XX先生/女士”称呼</Text>
       </View>

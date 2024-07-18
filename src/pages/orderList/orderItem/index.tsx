@@ -37,7 +37,7 @@ const OrderItem = (props: Props) => {
       orderCode: orderOption.orderCode,
       openId: storage.getOpenid()
     });
-    const { result, data, status, msg } = res;
+    const { result, data, status, message } = res;
     if (result) {
       const { timeStamp, nonceStr, packageValue, signType, paySign } = data;
       Taro.requestPayment({
@@ -57,7 +57,7 @@ const OrderItem = (props: Props) => {
       })
     } else {
       toast({
-        title: `${status}: ${msg}`,
+        title: `${status}: ${message}`,
         icon: 'none',
       });
     }
