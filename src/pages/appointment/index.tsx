@@ -93,7 +93,7 @@ const Appointment = () => {
   }
 
   return (
-    <View className="w-screen h-screen bg-[#F7F9FF] p-[15px] font-PF text-999">
+    <View className="w-screen h-screen relative bg-[#F7F9FF] p-[15px] font-PF text-999">
       <View className="w-full h-full px-[15px] py-[20px] bg-white rounded-[14px] shadow-shadow1">
         <View className="text-[14px] font-medium mb-[15px]">目前仅开通广州市，其他区域敬请期待</View>
         <View className="relative" onClick={locateSelect}>
@@ -121,7 +121,7 @@ const Appointment = () => {
             )
           })
         }
-        <View className='w-full text-999 text-[12px] absolute bottom-[30px] flex justify-center items-center'>客服电话： <View className='underline' onClick={callPhone}>13829707597</View> （工作日 09:00-18:00）</View>
+        <View className='text-999 text-[12px] absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex justify-center items-center'><View className='flex-shrink-0'>客服电话： </View><View className='underline flex-shrink-0' onClick={callPhone}>13829707597</View><View className='flex-shrink-0'> （工作日 09:00-18:00）</View></View>
       </View>
       {showConfirm && <ConfirmModal addressInfo={addressInfo} setShowConfirm={setShowConfirm}></ConfirmModal>}
     </View>

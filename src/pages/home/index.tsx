@@ -183,7 +183,7 @@ const Home = () => {
   }
 
   return (
-    <View className='w-screen min-h-screen px-[15px] py-[20px] bg-[#F6F8FB] font-PF font-medium'>
+    <View className='relative w-screen min-h-screen px-[15px] py-[20px] pb-[50px] bg-[#F6F8FB] font-PF font-medium'>
       <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />
       {isLogin && <View className='z-[9] relative'>
         <View className='flex items-center'>
@@ -231,7 +231,7 @@ const Home = () => {
           <View className='btn'>微信授权登录</View>
         </Button>
       </View>}
-      <View className='w-full text-999 text-[12px] absolute bottom-[30px] flex justify-center items-center'>客服电话： <View className='underline' onClick={callPhone}>13829707597</View> （工作日 09:00-18:00）</View>
+      <View className='text-999 text-[12px] absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex justify-center items-center'><View className='flex-shrink-0'>客服电话： </View><View className='underline flex-shrink-0' onClick={callPhone}>13829707597</View><View className='flex-shrink-0'> （工作日 09:00-18:00）</View></View>
     </View>
   )
 }
