@@ -1,6 +1,9 @@
 import { View, Image, Button, BaseEventOrig, ButtonProps } from '@tarojs/components'
 import './index.scss';
 import navigationBarBg from '@/images/image_dingbu.png';
+import bgImg from '@/images/bg@2x.png';
+import logoImg from '@/images/image_logo@2x.png';
+import wenziImg from '@/images/image_wenzi@2x.png';
 import editIcon from '@/images/icon_bianji.png';
 import avatarIcon from '@/images/avatar.png';
 import yuyueIcon from '@/images/icon_yuyue.png';
@@ -45,7 +48,7 @@ const Home = () => {
   })
 
   useEffect(() => {
-    if(token) {
+    if (token) {
       getOrderList();
     }
   }, [isPullDownRefresh])
@@ -53,7 +56,7 @@ const Home = () => {
   useEffect(() => {
     const userInfo = storage.getUserInfo();
     userInfo && setUserInfo(userInfo);
-    if(token) {
+    if (token) {
       setIsLogin(true);
       getOrderList();
     } else {
@@ -158,12 +161,12 @@ const Home = () => {
       size: 20
     });
     const { result, data, status, message } = res;
-    if(result) {
+    if (result) {
       data.list?.map(item => {
         item.clearDate = dateFormat(new Date(item.clearDate))
       })
-      console.log(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50) )));
-      setOrderList(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50) )));
+      console.log(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50))));
+      setOrderList(data.list.filter(x => (x.payStatus === 0 || (x.payStatus >= 20 && x.payStatus < 50))));
     } else {
       toast({
         title: `${status}: ${message}`,
@@ -176,7 +179,7 @@ const Home = () => {
   const callPhone = () => {
     Taro.makePhoneCall({
       phoneNumber: '13829707597',
-      success: function (){
+      success: function () {
         console.log("成功拨打电话")
       }
     })
@@ -184,7 +187,7 @@ const Home = () => {
 
   return (
     <View className='relative w-screen min-h-screen px-[15px] py-[20px] pb-[50px] bg-[#F6F8FB] font-PF font-medium'>
-      <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />
+      {isLogin && <Image className="absolute top-0 left-0 w-full z-[1]" src={navigationBarBg} />}
       {isLogin && <View className='z-[9] relative'>
         <View className='flex items-center'>
           <View className='mr-[10px]'>
@@ -192,10 +195,10 @@ const Home = () => {
           </View>
           <View className="text-333">
             <View className='flex items-center'>
-              <View>{ userInfo?.name || '微信用户'}</View>
+              <View>{userInfo?.name || '微信用户'}</View>
               <Image className="w-[12px] h-[12px] ml-[10px]" src={editIcon} onClick={editUserInfo} />
             </View>
-            <View className='text-[12px]'>{ userInfo?.mobile}</View>
+            <View className='text-[12px]'>{userInfo?.mobile}</View>
           </View>
         </View>
         <View className='mt-[24px] w-full bg-white rounded-[14px] shadow-shadow3 pt-[25px] pb-[20px]'>
@@ -221,16 +224,25 @@ const Home = () => {
           })
         }
       </View>}
-      {!isLogin && <View className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-full'>
-        <View className='text-[15px] mb-[10px] text-center'>欢迎使用装修垃圾收运小程序</View>
-        <Button
-          className='w-[300px] h-[40px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white'
-          openType='getPhoneNumber'
-          onGetPhoneNumber={onGetPhoneNumber}
-        >
-          <View className='btn'>微信授权登录</View>
-        </Button>
-      </View>}
+      {!isLogin && <Image className="absolute top-0 left-0 w-screen h-full" src={bgImg} />}
+      {!isLogin &&
+        <View className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-full'>
+          <View className='flex flex-col items-center'>
+            <Image src={logoImg} className='w-[130px] h-[71px]' />
+            <Image src={wenziImg} className='w-[175px] h-[26px] mt-[18px]' />
+          </View>
+          <View className='mt-[188px]'>
+            <View className='text-[15px] mb-[10px] text-center'>欢迎使用装修垃圾收运小程序</View>
+            <Button
+              className='w-[300px] h-[40px] bg-[#0091FF] rounded-[10px] flex items-center justify-center text-white'
+              openType='getPhoneNumber'
+              onGetPhoneNumber={onGetPhoneNumber}
+            >
+              <View className='btn'>微信授权登录</View>
+            </Button>
+          </View>
+        </View>
+      }
       <View className='text-999 text-[12px] absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex justify-center items-center'><View className='flex-shrink-0'>客服电话： </View><View className='underline flex-shrink-0' onClick={callPhone}>13829707597</View><View className='flex-shrink-0'> （工作日 09:00-18:00）</View></View>
     </View>
   )

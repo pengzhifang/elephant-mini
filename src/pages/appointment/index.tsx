@@ -20,7 +20,10 @@ const Appointment = () => {
   useDidShow(() => {
     const location = chooseLocation.getLocation();
     console.log(location, '选取地址location');
-    location && setAddressInfo(location);
+    location && setAddressInfo({
+      ...addressInfo,
+      ...location
+    });
   })
 
   const locateSelect = () => {
@@ -98,10 +101,7 @@ const Appointment = () => {
         <View className="text-[14px] font-medium mb-[15px]">目前仅开通广州市，其他区域敬请期待</View>
         <View className="relative" onClick={locateSelect}>
           <Input className='h-[52px] text-333 rounded-[10px] border border-solid border-999 pl-[15px]' value={addressInfo?.name} placeholder="请选择地址" />
-          {/* <View className="w-[1px] h-[19px] bg-999 absolute right-[56px] top-1/2 transform -translate-y-1/2 opacity-50"></View> */}
           <View className="absolute right-[15px] top-1/2 transform -translate-y-1/2 text-center" onClick={locateSelect}>
-            {/* <Image src={dingweiIcon} className="w-[11px] h-[15px] mb-[2px]"></Image>
-            <View className="text-[12px]">定位</View> */}
             <Image src={arrowIcon} className="w-[15px] h-[15px]"></Image>
           </View>
         </View>
