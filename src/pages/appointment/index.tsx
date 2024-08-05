@@ -7,6 +7,7 @@ import Taro, { requirePlugin, useDidShow } from "@tarojs/taro";
 import { useToast } from "@/hooks/useToast";
 import { OrderService } from "@/services/order.service";
 import { storage } from '@/services/storage.service';
+import classNames from "classnames";
 
 const orderService = new OrderService();
 
@@ -100,7 +101,8 @@ const Appointment = () => {
       <View className="w-full h-full px-[15px] py-[20px] bg-white rounded-[14px] shadow-shadow1">
         <View className="text-[14px] font-medium mb-[15px]">目前仅开通广州市，其他区域敬请期待</View>
         <View className="relative" onClick={locateSelect}>
-          <Input className='h-[52px] text-333 rounded-[10px] border border-solid border-999 pl-[15px]' value={addressInfo?.name} placeholder="请选择地址" />
+          {/* <Input className='h-[52px] text-333 rounded-[10px] border border-solid border-999 pl-[15px]' value={addressInfo?.name} placeholder="请选择地址" /> */}
+          <View className={classNames('h-[52px] leading-[52px] text-333 rounded-[10px] border border-solid border-999 pl-[15px]', { 'text-999': !addressInfo?.name })}>{addressInfo?.name || "请选择地址"}</View>
           <View className="absolute right-[15px] top-1/2 transform -translate-y-1/2 text-center" onClick={locateSelect}>
             <Image src={arrowIcon} className="w-[15px] h-[15px]"></Image>
           </View>
